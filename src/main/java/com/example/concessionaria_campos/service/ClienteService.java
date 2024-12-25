@@ -6,14 +6,11 @@ import com.example.concessionaria_campos.entity.Cliente;
 import com.example.concessionaria_campos.exception.ResourceNotFoundException;
 import com.example.concessionaria_campos.mapper.ClienteMapper;
 import com.example.concessionaria_campos.repository.ClienteRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClienteService {
@@ -46,7 +43,7 @@ public class ClienteService {
         return listaClientes;
     }
 
-    public ClienteDTO listarCliente(Long id) {
+    public ClienteDTO buscarPorId(Long id) {
         Cliente clienteExistente = clienteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente de não encontrado"));
         return clienteMapper.toDTO(clienteExistente);

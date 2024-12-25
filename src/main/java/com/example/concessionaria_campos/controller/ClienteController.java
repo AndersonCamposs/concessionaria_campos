@@ -5,7 +5,6 @@ import com.example.concessionaria_campos.dto.ApiResponse;
 import com.example.concessionaria_campos.dto.ClienteDTO;
 import com.example.concessionaria_campos.dto.Create;
 import com.example.concessionaria_campos.dto.Update;
-import com.example.concessionaria_campos.entity.Cliente;
 import com.example.concessionaria_campos.mapper.ClienteMapper;
 import com.example.concessionaria_campos.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @RestController
@@ -90,8 +88,8 @@ public class ClienteController {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "A requisição foi bem sucedida e foi retornado o registro com os dados do cliente."),
             }
     )
-    public ResponseEntity<ClienteDTO> listarCliente(@PathVariable Long id) {
-        ClienteDTO clienteExistente = clienteService.listarCliente(id);
+    public ResponseEntity<ClienteDTO> buscarPorId(@PathVariable Long id) {
+        ClienteDTO clienteExistente = clienteService.buscarPorId(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(clienteDTOAssembler.toModel(clienteMapper.toEntity(clienteExistente)));

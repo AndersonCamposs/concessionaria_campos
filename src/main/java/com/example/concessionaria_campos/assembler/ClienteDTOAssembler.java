@@ -21,7 +21,7 @@ public class ClienteDTOAssembler implements RepresentationModelAssembler<Cliente
 
         //adiciona os hiperlinks
         clienteDTO.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ClienteController.class)
-                .listarCliente(entity.getId())).withSelfRel());
+                .buscarPorId(entity.getId())).withSelfRel());
         clienteDTO.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ClienteController.class)
                 .listarClientes()).withRel("todos-os-clientes"));
 
