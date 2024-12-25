@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.parser.Entity;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,5 +39,12 @@ public class ClienteService {
             Cliente clienteAtualizado = clienteRepository.save(register);
             return clienteMapper.toDTO(clienteAtualizado);
         }
+    }
+
+    public List<ClienteDTO> listarClientes() {
+        List<ClienteDTO> listaClientes = new ArrayList<>();
+        clienteRepository.findAll()
+                .forEach(cliente -> listaClientes.add(clienteMapper.toDTO(cliente)));
+        return listaClientes;
     }
 }

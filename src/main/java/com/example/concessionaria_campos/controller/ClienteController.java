@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Locale;
 
 @RestController
@@ -35,5 +36,14 @@ public class ClienteController {
         return  ResponseEntity
                 .status(HttpStatus.OK)
                 .body(clienteAtualizado);
+    }
+
+    @GetMapping
+    @Operation(summary = "Lista completa de todos os clientes.", description = "Retorna uma lista com os dados de todos os clientes em formato JSON.")
+    public ResponseEntity<List<ClienteDTO>> listarClientes() {
+        List<ClienteDTO> listaClientes = clienteService.listarClientes();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(listaClientes);
     }
 }
