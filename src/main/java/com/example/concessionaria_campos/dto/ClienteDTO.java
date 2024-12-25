@@ -1,6 +1,7 @@
 package com.example.concessionaria_campos.dto;
 
 
+import com.example.concessionaria_campos.validation.ValidCPF;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -23,6 +24,7 @@ public class ClienteDTO {
 
     @NotNull(message =  "O campo 'cpf' é obrigatório", groups = Create.class)
     @Pattern(regexp = "[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{2}", message = "Padrão inválido de CPF.", groups = Create.class)
+    @ValidCPF(groups = { Create.class, Update.class })
     private String cpf;
 
     @Email(message = "E-mail inválido.")
