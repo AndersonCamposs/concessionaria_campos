@@ -1,10 +1,12 @@
 package com.example.concessionaria_campos.controller;
 
+import com.example.concessionaria_campos.assembler.ClienteDTOAssembler;
 import com.example.concessionaria_campos.dto.ApiResponse;
 import com.example.concessionaria_campos.dto.ClienteDTO;
 import com.example.concessionaria_campos.dto.Create;
 import com.example.concessionaria_campos.dto.Update;
 import com.example.concessionaria_campos.entity.Cliente;
+import com.example.concessionaria_campos.mapper.ClienteMapper;
 import com.example.concessionaria_campos.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/cliente")
@@ -23,6 +26,10 @@ import java.util.Locale;
 public class ClienteController {
     @Autowired
     ClienteService clienteService;
+    @Autowired
+    ClienteDTOAssembler clienteDTOAssembler;
+    @Autowired
+    ClienteMapper clienteMapper;
 
     @PostMapping
     @Operation(
@@ -65,7 +72,11 @@ public class ClienteController {
             }
     )
     public ResponseEntity<List<ClienteDTO>> listarClientes() {
-        List<ClienteDTO> listaClientes = clienteService.listarClientes();
+        List<ClienteDTO> listaClientes = clienteService.listarClientes()
+                .stream()
+                .map(clienteDTO -> clienteDTOAssembler.toModel(clienteMapper.toEntity(clienteDTO)))
+                .collect(Collectors.toList());
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(listaClientes);
@@ -83,7 +94,7 @@ public class ClienteController {
         ClienteDTO clienteExistente = clienteService.listarCliente(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(clienteExistente);
+                .body(clienteDTOAssembler.toModel(clienteMapper.toEntity(clienteExistente)));
     }
 
     @DeleteMapping("{id}")
