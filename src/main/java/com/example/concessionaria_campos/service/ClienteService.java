@@ -47,4 +47,13 @@ public class ClienteService {
                 .forEach(cliente -> listaClientes.add(clienteMapper.toDTO(cliente)));
         return listaClientes;
     }
+
+    public ClienteDTO listarCliente(Long id) {
+        Optional<Cliente> clienteExistente = clienteRepository.findById(id);
+        if (clienteExistente.isEmpty()) {
+            throw  new RuntimeException("Cliente não encontrado.");
+        } else {
+            return clienteMapper.toDTO(clienteExistente.get());
+        }
+    }
 }

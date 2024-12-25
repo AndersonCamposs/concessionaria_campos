@@ -46,4 +46,13 @@ public class ClienteController {
                 .status(HttpStatus.OK)
                 .body(listaClientes);
     }
+
+    @GetMapping("{id}")
+    @Operation(summary = "Lista os dados de um cliente.", description = "Retorna os dados de um cliente específico no formato JSON, com base no ID recebido com Path Variable.")
+    public ResponseEntity<ClienteDTO> listarCliente(@PathVariable Long id) {
+        ClienteDTO clienteExistente = clienteService.listarCliente(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(clienteExistente);
+    }
 }
