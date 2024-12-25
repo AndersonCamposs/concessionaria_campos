@@ -1,5 +1,6 @@
 package com.example.concessionaria_campos.service;
 
+import com.example.concessionaria_campos.dto.ApiResponse;
 import com.example.concessionaria_campos.dto.ClienteDTO;
 import com.example.concessionaria_campos.entity.Cliente;
 import com.example.concessionaria_campos.mapper.ClienteMapper;
@@ -54,6 +55,16 @@ public class ClienteService {
             throw  new RuntimeException("Cliente não encontrado.");
         } else {
             return clienteMapper.toDTO(clienteExistente.get());
+        }
+    }
+
+    public ApiResponse deletarCliente(Long id) {
+        Optional<Cliente> clienteExistente = clienteRepository.findById(id);
+        if (clienteExistente.isEmpty()) {
+            throw  new RuntimeException("Cliente não encontrado.");
+        } else {
+            clienteRepository.deleteById(id);
+            return new ApiResponse("Cliente deletado com sucesso");
         }
     }
 }

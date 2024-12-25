@@ -1,5 +1,6 @@
 package com.example.concessionaria_campos.controller;
 
+import com.example.concessionaria_campos.dto.ApiResponse;
 import com.example.concessionaria_campos.dto.ClienteDTO;
 import com.example.concessionaria_campos.entity.Cliente;
 import com.example.concessionaria_campos.service.ClienteService;
@@ -54,5 +55,13 @@ public class ClienteController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(clienteExistente);
+    }
+
+    @DeleteMapping("{id}")
+    @Operation(summary = "Deleta os dados de um cliente", description = "Retorna um objeto ApiResponse contendo uma mensagem de confirmação caso a requisição seja bem sucedida")
+    public ResponseEntity<ApiResponse> deletarCliente(@PathVariable Long id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(clienteService.deletarCliente(id));
     }
 }
