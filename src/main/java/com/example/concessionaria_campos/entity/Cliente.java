@@ -22,6 +22,8 @@ public class Cliente {
     @Column(name = "cpf", nullable = false, unique = true)
     private String cpf;
 
+    @Column(name = "email", nullable = true, unique = true)
+    private String email;
 
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
