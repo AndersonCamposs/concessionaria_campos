@@ -25,6 +25,13 @@ public class GlobalExceptionHandler {
                 .body(new ErrorDetails(e.getStatusCode().value(), "Erro na validação dos dados", errors));
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorDetails> handleResourceNotfoundException(ResourceNotFoundException e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage(), null));
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<?> handleBodyMissingException(HttpMessageNotReadableException e) {
         return ResponseEntity

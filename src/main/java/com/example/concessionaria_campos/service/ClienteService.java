@@ -3,6 +3,7 @@ package com.example.concessionaria_campos.service;
 import com.example.concessionaria_campos.dto.ApiResponse;
 import com.example.concessionaria_campos.dto.ClienteDTO;
 import com.example.concessionaria_campos.entity.Cliente;
+import com.example.concessionaria_campos.exception.ResourceNotFoundException;
 import com.example.concessionaria_campos.mapper.ClienteMapper;
 import com.example.concessionaria_campos.repository.ClienteRepository;
 import org.springframework.beans.BeanUtils;
@@ -31,15 +32,11 @@ public class ClienteService {
     }
 
     public ClienteDTO atualizarCliente(ClienteDTO cliente, Long id) {
-        Optional<Cliente> clienteExistente = clienteRepository.findById(id);
-        if (clienteExistente.isEmpty()) {
-            throw  new RuntimeException("Cliente não encontrado.");
-        } else {
-            Cliente register = clienteExistente.get();
-            register.setNome(cliente.getNome());
-            Cliente clienteAtualizado = clienteRepository.save(register);
-            return clienteMapper.toDTO(clienteAtualizado);
-        }
+        Cliente clienteExistente = clienteRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
+        clienteExistente.setNome(cliente.getNome());
+        Cliente clienteAtualizado = clienteRepository.save(clienteExistente);
+        return clienteMapper.toDTO(clienteAtualizado);
     }
 
     public List<ClienteDTO> listarClientes() {
@@ -50,21 +47,15 @@ public class ClienteService {
     }
 
     public ClienteDTO listarCliente(Long id) {
-        Optional<Cliente> clienteExistente = clienteRepository.findById(id);
-        if (clienteExistente.isEmpty()) {
-            throw  new RuntimeException("Cliente não encontrado.");
-        } else {
-            return clienteMapper.toDTO(clienteExistente.get());
-        }
+        Cliente clienteExistente = clienteRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente de não encontrado"));
+        return clienteMapper.toDTO(clienteExistente);
     }
 
     public ApiResponse deletarCliente(Long id) {
-        Optional<Cliente> clienteExistente = clienteRepository.findById(id);
-        if (clienteExistente.isEmpty()) {
-            throw  new RuntimeException("Cliente não encontrado.");
-        } else {
-            clienteRepository.deleteById(id);
-            return new ApiResponse("Cliente deletado com sucesso");
-        }
+        Cliente clienteExistente = clienteRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente de não encontrado"));
+        clienteRepository.deleteById(clienteExistente.getId());
+        return new ApiResponse("Cliente deletado com sucesso");
     }
 }
