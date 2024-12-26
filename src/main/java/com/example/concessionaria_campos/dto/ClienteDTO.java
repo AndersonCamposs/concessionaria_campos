@@ -4,10 +4,7 @@ package com.example.concessionaria_campos.dto;
 import com.example.concessionaria_campos.entity.Cliente;
 import com.example.concessionaria_campos.validation.ValidCPF;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
@@ -20,8 +17,7 @@ import java.time.LocalDate;
 public class ClienteDTO extends RepresentationModel<ClienteDTO> {
     private Long id;
 
-    @NotNull(message = "O campo 'nome' é obrigatório.", groups = {Create.class, Update.class})
-    @NotEmpty(message = "O campo 'nome' é obrigatório.", groups = {Create.class, Update.class})
+    @NotBlank(message = "O campo 'nome' é obrigatório.", groups = {Create.class, Update.class})
     private String nome;
 
     @NotNull(message =  "O campo 'cpf' é obrigatório", groups = Create.class)
