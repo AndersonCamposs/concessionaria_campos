@@ -4,7 +4,6 @@ import com.example.concessionaria_campos.dto.MarcaDTO;
 import com.example.concessionaria_campos.entity.Marca;
 import com.example.concessionaria_campos.mapper.MarcaMapper;
 import com.example.concessionaria_campos.repository.MarcaRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

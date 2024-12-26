@@ -3,7 +3,6 @@ package com.example.concessionaria_campos.controller;
 import com.example.concessionaria_campos.dto.Create;
 import com.example.concessionaria_campos.dto.MarcaDTO;
 import com.example.concessionaria_campos.service.MarcaService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
