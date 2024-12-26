@@ -24,11 +24,13 @@ public class FileStorageService {
             Files.createDirectories(uploadPath);
         }
 
-        String fileName = UUID.randomUUID().toString();
+        String originalFileName = file.getOriginalFilename();
+        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        String fileName = UUID.randomUUID().toString() + fileExtension;
         Path filePath = uploadPath.resolve(fileName);
 
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        return fileName;
+        return filePath.toString().replace("\\", "/");
     }
 }

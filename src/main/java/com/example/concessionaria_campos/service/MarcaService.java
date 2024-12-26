@@ -30,7 +30,7 @@ public class MarcaService {
 
             return marcaMapper.toDTO(marcaSalva);
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao salvar arquivo");
+            throw new RuntimeException("Erro ao salvar arquivo.");
         }
 
     }
