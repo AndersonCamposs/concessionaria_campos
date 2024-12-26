@@ -33,6 +33,7 @@ public class CategoryService {
         Category existingCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
         BeanUtils.copyProperties(category, existingCategory);
+        existingCategory.setId(id);
         Category updatedCategory = categoryRepository.save(existingCategory);
 
         return categoryMapper.toDTO(updatedCategory);

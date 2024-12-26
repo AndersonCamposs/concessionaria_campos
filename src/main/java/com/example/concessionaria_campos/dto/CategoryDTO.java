@@ -11,7 +11,7 @@ public class CategoryDTO extends RepresentationModel<CategoryDTO> {
 
     private Long id;
 
-    @NotBlank(message = "O campo 'nome'é obrigatório", groups = {Create.class, Update.class})
+    @NotBlank(message = "O campo 'nome' é obrigatório", groups = {Create.class, Update.class})
     private String name;
 
     private String description;
