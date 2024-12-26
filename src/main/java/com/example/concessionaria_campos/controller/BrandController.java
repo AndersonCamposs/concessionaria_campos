@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/marca")
+@RequestMapping("/brand")
 public class BrandController {
 
     @Autowired
