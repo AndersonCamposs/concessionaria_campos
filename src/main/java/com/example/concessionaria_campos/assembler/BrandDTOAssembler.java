@@ -22,7 +22,7 @@ public class BrandDTOAssembler implements RepresentationModelAssembler<Brand, Br
         brandDTO.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(BrandController.class)
                 .fetchById(entity.getId())).withSelfRel());
         brandDTO.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(BrandController.class)
-                .fetchAll()).withRel("todas-as-marcas"));
+                .fetchAll()).withRel("all-brands"));
 
         return brandDTO;
     }

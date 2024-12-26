@@ -23,7 +23,7 @@ public class CustomerDTOAssembler implements RepresentationModelAssembler<Custom
         customerDTO.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class)
                 .fetchById(entity.getId())).withSelfRel());
         customerDTO.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class)
-                .fetchAll()).withRel("todos-os-clientes"));
+                .fetchAll()).withRel("all-customers"));
 
         return customerDTO;
     }
