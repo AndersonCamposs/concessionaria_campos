@@ -1,6 +1,7 @@
 package com.example.concessionaria_campos.controller;
 
 import com.example.concessionaria_campos.assembler.BrandDTOAssembler;
+import com.example.concessionaria_campos.dto.ApiResponse;
 import com.example.concessionaria_campos.dto.BrandDTO;
 import com.example.concessionaria_campos.dto.Create;
 import com.example.concessionaria_campos.dto.Update;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/marca")
+@RequestMapping("/brand")
 public class BrandController {
 
     @Autowired
@@ -71,4 +72,13 @@ public class BrandController {
                 .status(HttpStatus.OK)
                 .body(brandDTOAssembler.toModel(brandMapper.toEntity(existingBrand)));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse> deleteBrand(@PathVariable Long id) {
+        ApiResponse response = brandService.deleteBrand(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
+
 }

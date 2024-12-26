@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/cliente")
+@RequestMapping(value = "/customer")
 @Tag(name = "Clientes", description = "Gerenciar os clientes daa concessionária.")
 public class CustomerController {
     @Autowired
@@ -104,8 +104,9 @@ public class CustomerController {
             }
     )
     public ResponseEntity<ApiResponse> deleteCustomer(@PathVariable Long id) {
+        ApiResponse response = customerService.deleteCustomer(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(customerService.deleteCustomer(id));
+                .body(response);
     }
 }

@@ -24,7 +24,7 @@ public class CustomerService {
             Customer savedCustomer = customerRepository.save(customerMapper.toEntity(customer));
             return customerMapper.toDTO(savedCustomer);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erro ao salvar os dados do cliente");
         }
     }
 
