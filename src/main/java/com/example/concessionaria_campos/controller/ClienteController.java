@@ -80,7 +80,7 @@ public class ClienteController {
                 .body(listaClientes);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @Operation(
             summary = "Lista os dados de um cliente.",
             description = "Retorna os dados de um cliente específico no formato JSON, com base no ID recebido com Path Variable.",
@@ -95,7 +95,7 @@ public class ClienteController {
                 .body(clienteDTOAssembler.toModel(clienteMapper.toEntity(clienteExistente)));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @Operation(
             summary = "Deleta os dados de um cliente",
             description = "Retorna um objeto ApiResponse contendo uma mensagem de confirmação caso a requisição seja bem sucedida",
