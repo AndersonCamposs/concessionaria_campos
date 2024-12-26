@@ -5,19 +5,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="marca")
+@Table(name="brand")
 @Getter
 @Setter
-public class Marca {
+public class Brand {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(name = "nome", nullable = false)
-    private String nome;
-
-    @Column(name = "foto", nullable = true)
-    private String foto;
+    @Column(name = "image", nullable = true)
+    private String image;
 }

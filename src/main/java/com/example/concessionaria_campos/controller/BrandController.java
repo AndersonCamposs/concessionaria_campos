@@ -1,11 +1,11 @@
 package com.example.concessionaria_campos.controller;
 
-import com.example.concessionaria_campos.assembler.MarcaDTOAssembler;
+import com.example.concessionaria_campos.assembler.BrandDTOAssembler;
+import com.example.concessionaria_campos.dto.BrandDTO;
 import com.example.concessionaria_campos.dto.Create;
-import com.example.concessionaria_campos.dto.MarcaDTO;
 import com.example.concessionaria_campos.dto.Update;
-import com.example.concessionaria_campos.mapper.MarcaMapper;
-import com.example.concessionaria_campos.service.MarcaService;
+import com.example.concessionaria_campos.mapper.BrandMapper;
+import com.example.concessionaria_campos.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,57 +18,57 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/marca")
-public class MarcaController {
+public class BrandController {
 
     @Autowired
-    MarcaService marcaService;
+    BrandService brandService;
     @Autowired
-    MarcaDTOAssembler marcaDTOAssembler;
+    BrandDTOAssembler brandDTOAssembler;
     @Autowired
-    MarcaMapper marcaMapper;
+    BrandMapper brandMapper;
 
     @PostMapping
-    public ResponseEntity<MarcaDTO> salvarMarca(
-            @Validated(Create.class) @ModelAttribute MarcaDTO data,
+    public ResponseEntity<BrandDTO> saveBrand(
+            @Validated(Create.class) @ModelAttribute BrandDTO data,
             @RequestParam(value = "file", required = false) MultipartFile file
     ) {
-        MarcaDTO marcaSalva = marcaService.salvarMarca(data, file);
+        BrandDTO savedBrand = brandService.saveBrand(data, file);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(marcaSalva);
+                .body(savedBrand);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MarcaDTO> atualizarMarca(
-            @Validated(Update.class) @ModelAttribute MarcaDTO data,
+    public ResponseEntity<BrandDTO> updateBrand(
+            @Validated(Update.class) @ModelAttribute BrandDTO data,
             @RequestParam(value = "file", required = false) MultipartFile file,
             @PathVariable Long id
     ) {
-        MarcaDTO marcaSalva = marcaService.atualizarMarca(data, file, id);
+        BrandDTO updatedBrand = brandService.updateBrand(data, file, id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(marcaSalva);
+                .body(updatedBrand);
     }
 
     @GetMapping
-    public ResponseEntity<List<MarcaDTO>> listarMarcas() {
-        List<MarcaDTO> listaMarcas = marcaService.listarMarcas()
+    public ResponseEntity<List<BrandDTO>> fetchAll() {
+        List<BrandDTO> brandList = brandService.fetchAll()
                 .stream()
-                .map(marcaDTO -> marcaDTOAssembler.toModel(marcaMapper.toEntity(marcaDTO)))
+                .map(brandDTO -> brandDTOAssembler.toModel(brandMapper.toEntity(brandDTO)))
                 .collect(Collectors.toList());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(listaMarcas);
+                .body(brandList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MarcaDTO> buscarPorId(@PathVariable Long id) {
-        MarcaDTO marcaExistente = marcaService.buscarPorId(id);
+    public ResponseEntity<BrandDTO> fetchById(@PathVariable Long id) {
+        BrandDTO existingBrand = brandService.fetchById(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(marcaDTOAssembler.toModel(marcaMapper.toEntity(marcaExistente)));
+                .body(brandDTOAssembler.toModel(brandMapper.toEntity(existingBrand)));
     }
 }

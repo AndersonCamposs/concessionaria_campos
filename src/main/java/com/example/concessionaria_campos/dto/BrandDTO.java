@@ -7,12 +7,12 @@ import org.springframework.hateoas.RepresentationModel;
 
 @Getter
 @Setter
-public class MarcaDTO extends RepresentationModel<MarcaDTO> {
+public class BrandDTO extends RepresentationModel<BrandDTO> {
 
     private Long id;
 
     @NotBlank(message = "O campo 'nome' é obrigatório", groups = {Create.class, Update.class})
-    private String nome;
+    private String name;
 
-    private String foto;
+    private String image;
 }
