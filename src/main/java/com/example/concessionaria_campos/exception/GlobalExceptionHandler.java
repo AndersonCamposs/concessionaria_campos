@@ -33,11 +33,16 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<?> handleBodyMissingException(HttpMessageNotReadableException e) {
+    public ResponseEntity<ErrorDetails> handleBodyMissingException(HttpMessageNotReadableException e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "O corpo da requisição precisa ser enviado.", null));
     }
 
-    
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorDetails> handlerRuntimeException(RuntimeException e) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), null));
+    }
 }
