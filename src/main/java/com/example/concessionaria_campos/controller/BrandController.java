@@ -36,7 +36,7 @@ public class BrandController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(savedBrand);
+                .body(brandDTOAssembler.toModel(brandMapper.toEntity(savedBrand)));
     }
 
     @PutMapping("/{id}")
@@ -49,7 +49,7 @@ public class BrandController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(updatedBrand);
+                .body((brandDTOAssembler.toModel(brandMapper.toEntity(updatedBrand))));
     }
 
     @GetMapping
