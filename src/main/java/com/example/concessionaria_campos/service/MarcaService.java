@@ -34,4 +34,8 @@ public class MarcaService {
         }
 
     }
+
+    public MarcaDTO atualizarMarca(MarcaDTO marca, MultipartFile file) {
+        return new MarcaDTO();
+    }
 }
