@@ -42,7 +42,7 @@ public class CustomerController {
         CustomerDTO savedCustomer = customerService.saveCustomer(data);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(savedCustomer);
+                .body(customerDTOAssembler.toModel(customerMapper.toEntity(savedCustomer)));
     }
 
     @PutMapping("/{id}")
@@ -58,7 +58,7 @@ public class CustomerController {
         CustomerDTO updatedCustomer = customerService.updateCustomer(data, id);
         return  ResponseEntity
                 .status(HttpStatus.OK)
-                .body(updatedCustomer);
+                .body(customerDTOAssembler.toModel(customerMapper.toEntity(updatedCustomer)));
     }
 
     @GetMapping
