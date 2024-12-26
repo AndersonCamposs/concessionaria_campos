@@ -7,17 +7,17 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name="cliente")
+@Table(name="customer")
 @Getter
 @Setter
-public class Cliente {
+public class Customer {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
-    @Column(name = "nome", nullable = false)
-    private String nome;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "cpf", nullable = false, unique = true)
     private String cpf;
@@ -25,8 +25,8 @@ public class Cliente {
     @Column(name = "email", nullable = true, unique = true)
     private String email;
 
-    @Column(name = "data_nascimento", nullable = false)
-    private LocalDate dataNascimento;
+    @Column(name = "born_Date", nullable = false)
+    private LocalDate bornDate;
 
 }
 

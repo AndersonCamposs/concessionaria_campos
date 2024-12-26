@@ -1,12 +1,12 @@
 package com.example.concessionaria_campos.controller;
 
-import com.example.concessionaria_campos.assembler.ClienteDTOAssembler;
+import com.example.concessionaria_campos.assembler.CustomerDTOAssembler;
 import com.example.concessionaria_campos.dto.ApiResponse;
-import com.example.concessionaria_campos.dto.ClienteDTO;
+import com.example.concessionaria_campos.dto.CustomerDTO;
 import com.example.concessionaria_campos.dto.Create;
 import com.example.concessionaria_campos.dto.Update;
-import com.example.concessionaria_campos.mapper.ClienteMapper;
-import com.example.concessionaria_campos.service.ClienteService;
+import com.example.concessionaria_campos.mapper.CustomerMapper;
+import com.example.concessionaria_campos.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +21,13 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/cliente")
 @Tag(name = "Clientes", description = "Gerenciar os clientes daa concessionária.")
-public class ClienteController {
+public class CustomerController {
     @Autowired
-    ClienteService clienteService;
+    CustomerService customerService;
     @Autowired
-    ClienteDTOAssembler clienteDTOAssembler;
+    CustomerDTOAssembler customerDTOAssembler;
     @Autowired
-    ClienteMapper clienteMapper;
+    CustomerMapper customerMapper;
 
     @PostMapping
     @Operation(
@@ -38,11 +38,11 @@ public class ClienteController {
                 @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Houve algum erro de validação nos dados enviados no corpo da requisição.")
             }
     )
-    public ResponseEntity<ClienteDTO> salvarCliente(@RequestBody @Validated(Create.class) ClienteDTO data) {
-        ClienteDTO clienteSalvo = clienteService.salvarCliente(data);
+    public ResponseEntity<CustomerDTO> saveCustomer(@RequestBody @Validated(Create.class) CustomerDTO data) {
+        CustomerDTO savedCustomer = customerService.saveCustomer(data);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(clienteSalvo);
+                .body(savedCustomer);
     }
 
     @PutMapping("/{id}")
@@ -54,11 +54,11 @@ public class ClienteController {
                 @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Houve algum erro de validação nos dados enviados no corpo da requisição.")
             }
     )
-    public ResponseEntity<ClienteDTO> atualizarCliente(@RequestBody @Validated(Update.class) ClienteDTO data, @PathVariable Long id) {
-        ClienteDTO clienteAtualizado = clienteService.atualizarCliente(data, id);
+    public ResponseEntity<CustomerDTO> updateCustomer(@RequestBody @Validated(Update.class) CustomerDTO data, @PathVariable Long id) {
+        CustomerDTO updatedCustomer = customerService.updateCustomer(data, id);
         return  ResponseEntity
                 .status(HttpStatus.OK)
-                .body(clienteAtualizado);
+                .body(updatedCustomer);
     }
 
     @GetMapping
@@ -69,15 +69,15 @@ public class ClienteController {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "A requisição foi bem sucedida e foi retornada a lista com todos os clientes."),
             }
     )
-    public ResponseEntity<List<ClienteDTO>> listarClientes() {
-        List<ClienteDTO> listaClientes = clienteService.listarClientes()
+    public ResponseEntity<List<CustomerDTO>> fetchAll() {
+        List<CustomerDTO> customerList = customerService.fetchAll()
                 .stream()
-                .map(clienteDTO -> clienteDTOAssembler.toModel(clienteMapper.toEntity(clienteDTO)))
+                .map(customerDTO -> customerDTOAssembler.toModel(customerMapper.toEntity(customerDTO)))
                 .collect(Collectors.toList());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(listaClientes);
+                .body(customerList);
     }
 
     @GetMapping("/{id}")
@@ -88,11 +88,11 @@ public class ClienteController {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "A requisição foi bem sucedida e foi retornado o registro com os dados do cliente."),
             }
     )
-    public ResponseEntity<ClienteDTO> buscarPorId(@PathVariable Long id) {
-        ClienteDTO clienteExistente = clienteService.buscarPorId(id);
+    public ResponseEntity<CustomerDTO> fetchById(@PathVariable Long id) {
+        CustomerDTO existingCustomer = customerService.fetchById(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(clienteDTOAssembler.toModel(clienteMapper.toEntity(clienteExistente)));
+                .body(customerDTOAssembler.toModel(customerMapper.toEntity(existingCustomer)));
     }
 
     @DeleteMapping("/{id}")
@@ -103,9 +103,9 @@ public class ClienteController {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "A requisição foi bem sucedida, o registro foi deletado e foi retornado um JSON de confirmação."),
             }
     )
-    public ResponseEntity<ApiResponse> deletarCliente(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse> deleteCustomer(@PathVariable Long id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(clienteService.deletarCliente(id));
+                .body(customerService.deleteCustomer(id));
     }
 }
