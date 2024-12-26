@@ -104,8 +104,9 @@ public class CustomerController {
             }
     )
     public ResponseEntity<ApiResponse> deleteCustomer(@PathVariable Long id) {
+        ApiResponse response = customerService.deleteCustomer(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(customerService.deleteCustomer(id));
+                .body(response);
     }
 }
