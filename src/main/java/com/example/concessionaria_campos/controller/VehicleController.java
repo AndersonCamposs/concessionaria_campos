@@ -2,23 +2,31 @@ package com.example.concessionaria_campos.controller;
 
 import com.example.concessionaria_campos.dto.Create;
 import com.example.concessionaria_campos.dto.VehicleDTO;
+import com.example.concessionaria_campos.param.VehiclePO;
+import com.example.concessionaria_campos.service.VehicleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/vehicle")
 public class VehicleController {
+    @Autowired
+    VehicleService vehicleService;
 
     @PostMapping
-    public ResponseEntity<VehicleDTO> saveVehicle(@RequestBody @Validated(Create.class) VehicleDTO data) {
+    public ResponseEntity<VehicleDTO> saveVehicle(
+            @Validated(Create.class) @ModelAttribute VehiclePO vehiclePO,
+            @RequestParam(value = "photo", required = false) MultipartFile[] photos
+            ) {
+        VehicleDTO savedVehicle = vehicleService.saveVehicle(vehicleService.convertPOToDto(vehiclePO));
+
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(data);
+                .body(new VehicleDTO());
     }
 }
