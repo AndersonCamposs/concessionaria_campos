@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/category")
 public class CategoryController {
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
     @Autowired
-    CategoryDTOAssembler categoryDTOAssembler;
+    private CategoryDTOAssembler categoryDTOAssembler;
     @Autowired
-    CategoryMapper categoryMapper;
+    private CategoryMapper categoryMapper;
 
     @PostMapping
     public ResponseEntity<CategoryDTO> saveCategory(@RequestBody @Validated(Create.class) CategoryDTO data) {

@@ -12,21 +12,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class VehicleService {
     @Autowired
-    VehicleRepository vehicleRepository;
+    private VehicleRepository vehicleRepository;
     @Autowired
-    VehicleMapper vehicleMapper;
+    private VehicleMapper vehicleMapper;
     @Autowired
-    BrandService brandService;
+    private BrandService brandService;
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
     @Autowired
-    BrandMapper brandMapper;
+    private BrandMapper brandMapper;
     @Autowired
-    CategoryMapper categoryMapper;
+    private CategoryMapper categoryMapper;
 
     public VehicleDTO saveVehicle(VehicleDTO vehicle) {
 
-        return vehicle;
+
     }
 
     public VehicleDTO convertPOToDto(VehiclePO vehiclePO) {

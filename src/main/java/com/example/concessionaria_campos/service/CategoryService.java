@@ -16,9 +16,9 @@ import java.util.List;
 @Service
 public class CategoryService {
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
     @Autowired
-    CategoryMapper categoryMapper;
+    private CategoryMapper categoryMapper;
 
     public CategoryDTO saveCategory(CategoryDTO category) {
         try {

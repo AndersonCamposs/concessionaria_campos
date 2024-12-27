@@ -18,11 +18,11 @@ import java.util.List;
 @Service
 public class BrandService {
     @Autowired
-    BrandRepository brandRepository;
+    private BrandRepository brandRepository;
     @Autowired
-    BrandMapper brandMapper;
+    private BrandMapper brandMapper;
     @Autowired
-    FileStorageService fileStorageService;
+    private FileStorageService fileStorageService;
 
     public BrandDTO saveBrand(@Validated BrandDTO brand, MultipartFile file) {
         try {

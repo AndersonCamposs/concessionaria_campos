@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/vehicle")
 public class VehicleController {
     @Autowired
-    VehicleService vehicleService;
+    private VehicleService vehicleService;
 
     @PostMapping
     public ResponseEntity<VehicleDTO> saveVehicle(
