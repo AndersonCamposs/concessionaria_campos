@@ -18,6 +18,9 @@ public class VehicleDTO {
     @NotBlank(message = "O campo 'modelo' é obrigatório.", groups = {Create.class, Update.class})
     private String model;
 
+    @NotBlank(message = "O campo 'número do chassi' é obrigatório.", groups = {Create.class, Update.class})
+    private String chassisNumber;
+
     @NotBlank(message = "O campo 'placa' é obrigatório.", groups = {Create.class, Update.class})
     private String plate;
 

@@ -17,6 +17,9 @@ public class Vehicle {
     @Column(name = "model", nullable = false)
     private String model;
 
+    @Column(name = "chassis_number", unique = true)
+    private String chassisNumber;
+
     @Column(name = "plate", nullable = false)
     private String plate;
 
