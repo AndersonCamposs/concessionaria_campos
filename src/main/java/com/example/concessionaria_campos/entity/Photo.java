@@ -12,10 +12,13 @@ public class Photo {
     @Id
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
+
+    @Column(name = "path", nullable = false, unique = true)
+    private String path;
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id", nullable = false)
-    Vehicle vehicle;
+    private Vehicle vehicle;
 }

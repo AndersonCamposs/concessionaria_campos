@@ -11,6 +11,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/vehicle")
 public class VehicleController {
@@ -20,7 +22,7 @@ public class VehicleController {
     @PostMapping
     public ResponseEntity<VehicleDTO> saveVehicle(
             @Validated(Create.class) @ModelAttribute VehiclePO vehiclePO,
-            @RequestParam(value = "photo", required = false) MultipartFile[] photos
+            @RequestParam(value = "photo", required = false) List<MultipartFile> photos
             ) {
         VehicleDTO savedVehicle = vehicleService.saveVehicle(vehicleService.convertPOToDto(vehiclePO));
 
