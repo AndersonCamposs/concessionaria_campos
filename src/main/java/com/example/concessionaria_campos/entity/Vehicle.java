@@ -5,6 +5,8 @@ import com.example.concessionaria_campos.enums.VehicleStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "vehicle")
 @Data
@@ -39,4 +41,7 @@ public class Vehicle {
 
     @Column(name = "status", nullable = false)
     private VehicleStatus status;
+
+    @OneToMany(mappedBy = "vehicle")
+    Set<Photo> photos;
 }
