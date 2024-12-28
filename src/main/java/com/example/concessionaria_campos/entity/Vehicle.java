@@ -2,6 +2,7 @@ package com.example.concessionaria_campos.entity;
 
 import com.example.concessionaria_campos.enums.TransmissionType;
 import com.example.concessionaria_campos.enums.VehicleStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -44,6 +45,6 @@ public class Vehicle {
     @Enumerated(EnumType.STRING)
     private VehicleStatus status;
 
-    @OneToMany(mappedBy = "vehicle")
-    Set<Photo> photos;
+    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Photo> photos;
 }

@@ -14,4 +14,5 @@ public class PhotoDTO {
     private String path;
 
     private Vehicle vehicle;
+
 }

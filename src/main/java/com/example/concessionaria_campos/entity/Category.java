@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "category")
 @Getter
@@ -19,4 +21,7 @@ public class Category {
 
     @Column(name = "description", nullable = true)
     private String description;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Vehicle> vehicles;
 }
