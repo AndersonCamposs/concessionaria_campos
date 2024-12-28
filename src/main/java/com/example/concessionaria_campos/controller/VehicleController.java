@@ -1,6 +1,7 @@
 package com.example.concessionaria_campos.controller;
 
 import com.example.concessionaria_campos.dto.Create;
+import com.example.concessionaria_campos.dto.Update;
 import com.example.concessionaria_campos.dto.VehicleDTO;
 import com.example.concessionaria_campos.param.VehiclePO;
 import com.example.concessionaria_campos.service.VehicleService;
@@ -29,5 +30,18 @@ public class VehicleController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(savedVehicle);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<VehicleDTO> updateVehicle(
+            @Validated(Update.class) @ModelAttribute VehiclePO vehiclePO,
+            @RequestParam(value = "file", required = false) List<MultipartFile> files,
+            @PathVariable Long id
+    ) {
+        VehicleDTO updatedVehicle = vehicleService.updateVehicle(vehicleService.convertPOToDto(vehiclePO), files, id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(updatedVehicle);
     }
 }

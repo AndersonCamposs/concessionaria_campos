@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -62,6 +63,19 @@ public class FileStorageService {
         return dtos;
     }
 
+    public void deleteFiles(List<PhotoDTO> files) {
+        for (PhotoDTO photo: files) {
+            File file = new File(photo.getPath());
+            if (file.exists()) {
+                if(!file.delete()) {
+                    throw new RuntimeException("Erro ao deletar o arquivo: " + photo.getName());
+                }
+            } else {
+                throw new RuntimeException("Erro ao encontrar o arquivo: " + photo.getName());
+            }
+        }
+    }
+
     public void validate(MultipartFile file) {
         if (file == null) {
             return;
@@ -70,8 +84,8 @@ public class FileStorageService {
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
         if (!ACCEPTED_EXTENSIONS.contains(fileExtension.toLowerCase())) {
             List<String> withErrors = new ArrayList<>();
-            withErrors.add(originalFileName + "." + fileExtension);
-            throw new FileExtensionException("Arquivo com extensão inadequada.");
+            withErrors.add(originalFileName);
+            throw new FileExtensionException("Arquivo com extensão inadequada.", withErrors);
         }
     }
 
@@ -84,12 +98,12 @@ public class FileStorageService {
             String originalFileName = file.getOriginalFilename();
             String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
             if (!ACCEPTED_EXTENSIONS.contains(fileExtension.toLowerCase())) {
-                withErrors.add(originalFileName + "." + fileExtension);
+                withErrors.add(originalFileName);
             }
         }
 
         if (!withErrors.isEmpty()) {
-            throw new FileExtensionException("Um ou mais arquivos possuem extensão inadequada.");
+            throw new FileExtensionException("Um ou mais arquivos possuem extensão inadequada.", withErrors);
         }
     }
 }

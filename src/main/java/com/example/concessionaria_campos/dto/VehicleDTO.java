@@ -29,13 +29,13 @@ public class VehicleDTO {
     private String plate;
 
     @NotNull(message = "O campo 'marca' é obrigatório.", groups = {Create.class, Update.class})
-    private Brand brand;
+    private BrandDTO brand;
 
     @NotNull(message = "O campo 'ano de fabricação' é obrigatório.", groups = {Create.class, Update.class})
     private Integer year;
 
     @NotNull(message = "O campo 'categoria' é obrigatório.", groups = {Create.class, Update.class})
-    private Category category;
+    private CategoryDTO category;
 
     @NotBlank(message = "O campo 'tipo de transmissão' é obrigatório.", groups = {Create.class, Update.class})
     private TransmissionType transmissionType;

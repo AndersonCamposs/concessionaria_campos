@@ -2,6 +2,7 @@ package com.example.concessionaria_campos.service;
 
 import com.example.concessionaria_campos.dto.PhotoDTO;
 import com.example.concessionaria_campos.entity.Photo;
+import com.example.concessionaria_campos.entity.Vehicle;
 import com.example.concessionaria_campos.mapper.PhotoMapper;
 import com.example.concessionaria_campos.repository.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,14 @@ public class PhotoService {
         List<Photo> savedPhotos = photoRepository.saveAll(photosList);
 
         return savedPhotos
+                .stream()
+                .map(photoMapper::toDTO)
+                .toList();
+    }
+
+    public List<PhotoDTO> fetchByVehicle(Vehicle vehicle) {
+        return photoRepository
+                .findByVehicle(vehicle)
                 .stream()
                 .map(photoMapper::toDTO)
                 .toList();

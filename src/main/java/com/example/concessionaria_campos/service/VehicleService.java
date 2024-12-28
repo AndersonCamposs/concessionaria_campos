@@ -3,17 +3,20 @@ package com.example.concessionaria_campos.service;
 import com.example.concessionaria_campos.dto.PhotoDTO;
 import com.example.concessionaria_campos.dto.VehicleDTO;
 import com.example.concessionaria_campos.entity.Vehicle;
+import com.example.concessionaria_campos.exception.ResourceNotFoundException;
 import com.example.concessionaria_campos.mapper.BrandMapper;
 import com.example.concessionaria_campos.mapper.CategoryMapper;
 import com.example.concessionaria_campos.mapper.VehicleMapper;
 import com.example.concessionaria_campos.param.VehiclePO;
 import com.example.concessionaria_campos.repository.VehicleRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -54,14 +57,45 @@ public class VehicleService {
         }
     }
 
+    public VehicleDTO updateVehicle(VehicleDTO vehicle, List<MultipartFile> files, Long id) {
+        fileStorageService.validate(files);
+
+        Vehicle existingVehicle = vehicleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Veículo não encontrado"));
+        try {
+            List<PhotoDTO> vehiclePhotos = photoService.fetchByVehicle(existingVehicle);
+            fileStorageService.deleteFiles(vehiclePhotos);
+
+            existingVehicle.getPhotos().clear();
+            vehicle.setPhotos(existingVehicle.getPhotos());
+            BeanUtils.copyProperties(vehicle, existingVehicle);
+            existingVehicle.setId(id);
+
+            Vehicle updatedVehicle = vehicleRepository.save(existingVehicle);
+
+            if (!files.isEmpty()) {
+                List<PhotoDTO> savedFiles = fileStorageService.saveFiles(files, "vehicles");
+                for (PhotoDTO photo: savedFiles) {
+                    photo.setVehicle(updatedVehicle);
+                    photoService.saveManyPhotos(savedFiles);
+                }
+            }
+
+            return vehicleMapper.toDTO(updatedVehicle);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao salvar arquivos");
+        }
+    }
+
     public VehicleDTO convertPOToDto(VehiclePO vehiclePO) {
         VehicleDTO vehicleDTO = new VehicleDTO();
         vehicleDTO.setModel(vehiclePO.getModel());
         vehicleDTO.setChassisNumber(vehiclePO.getChassisNumber());
         vehicleDTO.setPlate(vehiclePO.getPlate());
-        vehicleDTO.setBrand(brandMapper.toEntity(brandService.fetchById(vehiclePO.getBrandId())));
+        vehicleDTO.setBrand(brandService.fetchById(vehiclePO.getBrandId()));
         vehicleDTO.setYear(vehiclePO.getYear());
-        vehicleDTO.setCategory(categoryMapper.toEntity(categoryService.fetchById(vehiclePO.getCategoryId())));
+        vehicleDTO.setCategory(categoryService.fetchById(vehiclePO.getCategoryId()));
         vehicleDTO.setTransmissionType(vehiclePO.getTransmissionType());
         vehicleDTO.setStatus(vehiclePO.getStatus());
 
