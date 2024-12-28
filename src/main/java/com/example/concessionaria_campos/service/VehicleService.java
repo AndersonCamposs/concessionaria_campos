@@ -39,11 +39,14 @@ public class VehicleService {
         try {
             fileStorageService.validate(files);;
             Vehicle savedVehicle = vehicleRepository.save(vehicleMapper.toEntity(vehicle));
-            List<PhotoDTO> savedFiles = fileStorageService.saveFiles(files, "vehicles");
-            for (PhotoDTO photo: savedFiles) {
-                photo.setVehicle(savedVehicle);
+            if (!files.isEmpty()) {
+                List<PhotoDTO> savedFiles = fileStorageService.saveFiles(files, "vehicles");
+                for (PhotoDTO photo: savedFiles) {
+                    photo.setVehicle(savedVehicle);
+                }
+                photoService.saveManyPhotos(savedFiles);
             }
-            photoService.saveManyPhotos(savedFiles);
+
             return vehicleMapper.toDTO(savedVehicle);
 
         } catch (IOException e) {

@@ -63,6 +63,9 @@ public class FileStorageService {
     }
 
     public void validate(MultipartFile file) {
+        if (file == null) {
+            return;
+        }
         String originalFileName = file.getOriginalFilename();
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
         if (!ACCEPTED_EXTENSIONS.contains(fileExtension.toLowerCase())) {
@@ -73,6 +76,9 @@ public class FileStorageService {
     }
 
     public void validate(List<MultipartFile> files) {
+        if (files.isEmpty()) {
+            return;
+        }
         List<String> withErrors = new ArrayList<>();
         for (MultipartFile file: files) {
             String originalFileName = file.getOriginalFilename();
