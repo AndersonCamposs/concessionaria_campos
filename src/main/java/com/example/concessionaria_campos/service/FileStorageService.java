@@ -16,7 +16,7 @@ import java.util.*;
 @Service
 public class FileStorageService {
 
-    private final Set<String> ACCEPTED_EXTENSIONS = Set.of("jpg", "jpeg", "png");
+    private final Set<String> ACCEPTED_EXTENSIONS = Set.of(".jpg", ".jpeg", ".png");
 
     @Value("${file.upload-dir}")
     private String baseUploadDir;
@@ -32,12 +32,6 @@ public class FileStorageService {
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
         String fileName = "IMG_" + UUID.randomUUID().toString() + fileExtension;
         Path filePath = uploadPath.resolve(fileName);
-        if (ACCEPTED_EXTENSIONS.contains(fileExtension.toLowerCase())) {
-            List<String> withErrors = new ArrayList<>();
-            withErrors.add(originalFileName + "." + fileExtension);
-            throw new FileExtensionException("Um ou mais arquivos possuem extensão inadequada.", withErrors);
-        }
-
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
         return filePath.toString().replace("\\", "/");
@@ -71,10 +65,10 @@ public class FileStorageService {
     public void validate(MultipartFile file) {
         String originalFileName = file.getOriginalFilename();
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-        if (ACCEPTED_EXTENSIONS.contains(fileExtension.toLowerCase())) {
+        if (!ACCEPTED_EXTENSIONS.contains(fileExtension.toLowerCase())) {
             List<String> withErrors = new ArrayList<>();
             withErrors.add(originalFileName + "." + fileExtension);
-            throw new FileExtensionException("Arquivo com extensão inadequada.", withErrors);
+            throw new FileExtensionException("Arquivo com extensão inadequada.");
         }
     }
 
@@ -83,13 +77,13 @@ public class FileStorageService {
         for (MultipartFile file: files) {
             String originalFileName = file.getOriginalFilename();
             String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-            if (ACCEPTED_EXTENSIONS.contains(fileExtension.toLowerCase())) {
+            if (!ACCEPTED_EXTENSIONS.contains(fileExtension.toLowerCase())) {
                 withErrors.add(originalFileName + "." + fileExtension);
             }
         }
 
         if (!withErrors.isEmpty()) {
-            throw new FileExtensionException("Um ou mais arquivos possuem extensão inadequada.", withErrors);
+            throw new FileExtensionException("Um ou mais arquivos possuem extensão inadequada.");
         }
     }
 }

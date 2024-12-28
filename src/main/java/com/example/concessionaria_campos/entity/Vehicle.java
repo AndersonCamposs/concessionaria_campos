@@ -37,9 +37,11 @@ public class Vehicle {
     private Category category;
 
     @Column(name = "transmission_type", nullable = false)
+    @Enumerated(EnumType.STRING)
     private TransmissionType transmissionType;
 
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private VehicleStatus status;
 
     @OneToMany(mappedBy = "vehicle")

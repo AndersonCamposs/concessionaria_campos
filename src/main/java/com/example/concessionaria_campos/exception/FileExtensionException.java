@@ -1,7 +1,11 @@
 package com.example.concessionaria_campos.exception;
 
-import java.util.List;
+import lombok.Getter;
 
+import java.util.List;
+import java.util.Set;
+
+@Getter
 public class FileExtensionException extends RuntimeException {
     private List<String> files;
 

@@ -32,6 +32,13 @@ public class GlobalExceptionHandler {
                 .body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage(), null));
     }
 
+    @ExceptionHandler(FileExtensionException.class)
+    public ResponseEntity<ErrorDetails> handleFileExtensionException(FileExtensionException e) {
+        return ResponseEntity
+                .status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                .body(new ErrorDetails(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(), e.getMessage(), e.getFiles()));
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorDetails> handleBodyMissingException(HttpMessageNotReadableException e) {
         return ResponseEntity
