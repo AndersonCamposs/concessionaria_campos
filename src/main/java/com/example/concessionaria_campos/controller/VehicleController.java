@@ -22,13 +22,12 @@ public class VehicleController {
     @PostMapping
     public ResponseEntity<VehicleDTO> saveVehicle(
             @Validated(Create.class) @ModelAttribute VehiclePO vehiclePO,
-            @RequestParam(value = "photo", required = false) List<MultipartFile> photos
+            @RequestParam(value = "file", required = false) List<MultipartFile> files
             ) {
-        VehicleDTO savedVehicle = vehicleService.saveVehicle(vehicleService.convertPOToDto(vehiclePO));
-
+        VehicleDTO savedVehicle = vehicleService.saveVehicle(vehicleService.convertPOToDto(vehiclePO), files);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new VehicleDTO());
+                .body(savedVehicle);
     }
 }

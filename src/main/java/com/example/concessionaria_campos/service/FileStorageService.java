@@ -44,7 +44,6 @@ public class FileStorageService {
     }
 
     public List<PhotoDTO> saveFiles(List<MultipartFile> files, String subFolder) throws IOException {
-        validate(files);
         Path uploadPath = Paths.get(baseUploadDir, subFolder);
 
         if(!Files.exists(uploadPath)) {
@@ -69,7 +68,7 @@ public class FileStorageService {
         return dtos;
     }
 
-    private void validate(MultipartFile file) {
+    public void validate(MultipartFile file) {
         String originalFileName = file.getOriginalFilename();
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
         if (ACCEPTED_EXTENSIONS.contains(fileExtension.toLowerCase())) {
@@ -79,7 +78,7 @@ public class FileStorageService {
         }
     }
 
-    private void validate(List<MultipartFile> files) {
+    public void validate(List<MultipartFile> files) {
         List<String> withErrors = new ArrayList<>();
         for (MultipartFile file: files) {
             String originalFileName = file.getOriginalFilename();
