@@ -37,10 +37,11 @@ public class CustomerService {
     }
 
     public List<CustomerDTO> fetchAll() {
-        List<CustomerDTO> customerList = new ArrayList<>();
-        customerRepository.findAll()
-                .forEach(customer -> customerList.add(customerMapper.toDTO(customer)));
-        return customerList;
+        return customerRepository
+                .findAll()
+                .stream()
+                .map(customerMapper::toDTO)
+                .toList();
     }
 
     public CustomerDTO fetchById(Long id) {

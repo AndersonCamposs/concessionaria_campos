@@ -55,10 +55,11 @@ public class BrandService {
     }
 
     public List<BrandDTO> fetchAll() {
-        List<BrandDTO> brandList = new ArrayList<>();
-        brandRepository.findAll()
-                .forEach(brand -> brandList.add(brandMapper.toDTO(brand)));
-        return brandList;
+        return brandRepository
+                .findAll()
+                .stream()
+                .map(brandMapper::toDTO)
+                .toList();
     }
 
     public BrandDTO fetchById(Long id) {

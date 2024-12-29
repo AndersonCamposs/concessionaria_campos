@@ -40,11 +40,11 @@ public class CategoryService {
     }
 
     public List<CategoryDTO> fetchAll() {
-        List<CategoryDTO> categoryList = new ArrayList<>();
-        categoryRepository.findAll()
-                .forEach(category -> categoryList.add(categoryMapper.toDTO(category)));
-
-        return categoryList;
+        return categoryRepository
+                .findAll()
+                .stream()
+                .map(categoryMapper::toDTO)
+                .toList();
     }
 
     public CategoryDTO fetchById(Long id) {
