@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @ControllerAdvice
@@ -30,6 +31,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage(), null));
+    }
+
+    @ExceptionHandler(FileExtensionException.class)
+    public ResponseEntity<ErrorDetails> handleFileExtensionException(FileExtensionException e) {
+        return ResponseEntity
+                .status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                .body(new ErrorDetails(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(), e.getMessage(), e.getFiles()));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

@@ -4,14 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Entity
-@Table(name = "category")
 @Getter
 @Setter
-public class Category {
-
+public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
@@ -19,9 +15,10 @@ public class Category {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "description", nullable = true)
-    private String description;
+    @Column(name = "path", nullable = false, unique = true)
+    private String path;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Vehicle> vehicles;
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id", nullable = false)
+    private Vehicle vehicle;
 }

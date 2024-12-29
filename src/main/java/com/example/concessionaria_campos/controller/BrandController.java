@@ -22,11 +22,11 @@ import java.util.stream.Collectors;
 public class BrandController {
 
     @Autowired
-    BrandService brandService;
+    private BrandService brandService;
     @Autowired
-    BrandDTOAssembler brandDTOAssembler;
+    private BrandDTOAssembler brandDTOAssembler;
     @Autowired
-    BrandMapper brandMapper;
+    private BrandMapper brandMapper;
 
     @PostMapping
     public ResponseEntity<BrandDTO> saveBrand(

@@ -23,11 +23,11 @@ import java.util.stream.Collectors;
 @Tag(name = "Clientes", description = "Gerenciar os clientes daa concessionária.")
 public class CustomerController {
     @Autowired
-    CustomerService customerService;
+    private CustomerService customerService;
     @Autowired
-    CustomerDTOAssembler customerDTOAssembler;
+    private CustomerDTOAssembler customerDTOAssembler;
     @Autowired
-    CustomerMapper customerMapper;
+    private CustomerMapper customerMapper;
 
     @PostMapping
     @Operation(
