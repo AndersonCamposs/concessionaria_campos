@@ -1,6 +1,7 @@
 package com.example.concessionaria_campos.dto;
 
 
+import com.example.concessionaria_campos.entity.Sale;
 import com.example.concessionaria_campos.validation.ValidCPF;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
@@ -9,6 +10,7 @@ import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Schema(description = "Detalhes do cliente")
 @Getter
@@ -29,4 +31,6 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> {
 
     @NotNull(message = "O campo 'dataNascimento' é obrigatório.", groups = Create.class)
     private LocalDate bornDate;
+
+    private Set<Sale> purchases;
 }
