@@ -1,8 +1,10 @@
 package com.example.concessionaria_campos.controller;
 
+import com.example.concessionaria_campos.assembler.VehicleDTOAssembler;
 import com.example.concessionaria_campos.dto.Create;
 import com.example.concessionaria_campos.dto.Update;
 import com.example.concessionaria_campos.dto.VehicleDTO;
+import com.example.concessionaria_campos.mapper.VehicleMapper;
 import com.example.concessionaria_campos.param.VehiclePO;
 import com.example.concessionaria_campos.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,10 @@ import java.util.List;
 public class VehicleController {
     @Autowired
     private VehicleService vehicleService;
+    @Autowired
+    private VehicleDTOAssembler vehicleDTOAssembler;
+    @Autowired
+    private VehicleMapper vehicleMapper;
 
     @PostMapping
     public ResponseEntity<VehicleDTO> saveVehicle(
@@ -29,7 +35,7 @@ public class VehicleController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(savedVehicle);
+                .body(vehicleDTOAssembler.toModel(vehicleMapper.toEntity(savedVehicle)));
     }
 
     @PutMapping("/{id}")
@@ -42,6 +48,28 @@ public class VehicleController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(updatedVehicle);
+                .body(vehicleDTOAssembler.toModel(vehicleMapper.toEntity(updatedVehicle)));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<VehicleDTO>> fetchAll() {
+        List<VehicleDTO> vehicleList = vehicleService
+                .fetchAll()
+                .stream()
+                .map(vehicleDTO -> vehicleDTOAssembler.toModel(vehicleMapper.toEntity(vehicleDTO)))
+                .toList();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(vehicleList);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<VehicleDTO> fetchById(@PathVariable Long id) {
+        VehicleDTO existingVehicle = vehicleService.fetchById(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(vehicleDTOAssembler.toModel(vehicleMapper.toEntity(existingVehicle)));
     }
 }

@@ -10,12 +10,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Set;
 
 @Getter
 @Setter
-public class VehicleDTO {
+public class VehicleDTO extends RepresentationModel<VehicleDTO> {
 
     private Long id;
 

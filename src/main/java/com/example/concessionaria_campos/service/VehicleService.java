@@ -88,6 +88,20 @@ public class VehicleService {
         }
     }
 
+    public List<VehicleDTO> fetchAll() {
+        return vehicleRepository
+                .findAll()
+                .stream()
+                .map(vehicleMapper::toDTO)
+                .toList();
+    }
+
+    public VehicleDTO fetchById(Long id) {
+        Vehicle existingVehicle = vehicleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Veículo não encontrado"));
+        return vehicleMapper.toDTO(existingVehicle);
+    }
+
     public VehicleDTO convertPOToDto(VehiclePO vehiclePO) {
         VehicleDTO vehicleDTO = new VehicleDTO();
         vehicleDTO.setModel(vehiclePO.getModel());
