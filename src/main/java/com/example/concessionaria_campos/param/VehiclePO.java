@@ -35,5 +35,9 @@ public class VehiclePO {
     @NotNull(message = "O campo 'tipo de transmissão' é obrigatório.", groups = {Create.class, Update.class})
     private TransmissionType transmissionType;
 
+    @NotNull(message = "O campo 'status do veículo' é obrigatório.", groups = {Create.class, Update.class})
     private VehicleStatus status;
+
+    @NotNull(message = "O campo 'valor' é obrigatório.", groups = {Create.class, Update.class})
+    private Double value;
 }

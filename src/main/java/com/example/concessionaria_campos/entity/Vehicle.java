@@ -37,13 +37,16 @@ public class Vehicle {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @Column(name = "transmission_type", nullable = false)
+    @Column(name = "transmission_type", nullable = false, columnDefinition = "enum('AUTOMATIC','MANUAL')")
     @Enumerated(EnumType.STRING)
     private TransmissionType transmissionType;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", nullable = false, columnDefinition = "enum('AVAILABLE','MAINTENANCE','SOLD')")
     @Enumerated(EnumType.STRING)
     private VehicleStatus status;
+
+    @Column(name = "value", nullable = false)
+    private Double value;
 
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Photo> photos;

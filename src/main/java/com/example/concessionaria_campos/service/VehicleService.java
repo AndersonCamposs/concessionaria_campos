@@ -1,5 +1,6 @@
 package com.example.concessionaria_campos.service;
 
+import com.example.concessionaria_campos.dto.ApiResponse;
 import com.example.concessionaria_campos.dto.PhotoDTO;
 import com.example.concessionaria_campos.dto.VehicleDTO;
 import com.example.concessionaria_campos.entity.Vehicle;
@@ -100,6 +101,13 @@ public class VehicleService {
         return vehicleMapper.toDTO(existingVehicle);
     }
 
+    public ApiResponse deleteVehicle(Long id) {
+        Vehicle existingVehicle = vehicleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Veículo não encontrado"));
+        vehicleRepository.deleteById(id);
+        return new ApiResponse("Veículo deletado com sucesso.");
+    }
+
     public VehicleDTO convertPOToDto(VehiclePO vehiclePO) {
         VehicleDTO vehicleDTO = new VehicleDTO();
         vehicleDTO.setModel(vehiclePO.getModel());
@@ -109,6 +117,7 @@ public class VehicleService {
         vehicleDTO.setYear(vehiclePO.getYear());
         vehicleDTO.setCategory(categoryService.fetchById(vehiclePO.getCategoryId()));
         vehicleDTO.setTransmissionType(vehiclePO.getTransmissionType());
+        vehicleDTO.setValue(vehiclePO.getValue());
         vehicleDTO.setStatus(vehiclePO.getStatus());
 
         return vehicleDTO;
