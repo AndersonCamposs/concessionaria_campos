@@ -35,7 +35,7 @@ public class FileStorageService {
         Path filePath = uploadPath.resolve(fileName);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        return filePath.toString().replace("\\", "/");
+        return "/" + filePath.toString().replace("\\", "/");
     }
 
     public List<PhotoDTO> saveFiles(List<MultipartFile> files, String subFolder) throws IOException {
@@ -56,7 +56,7 @@ public class FileStorageService {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             dto.setName(fileName);
-            dto.setPath(filePath.toString().replace("\\", "/"));
+            dto.setPath("/" + filePath.toString().replace("\\", "/"));
             dtos.addLast(dto);
         }
 
