@@ -9,7 +9,6 @@ import com.example.concessionaria_campos.mapper.CategoryMapper;
 import com.example.concessionaria_campos.mapper.VehicleMapper;
 import com.example.concessionaria_campos.param.VehiclePO;
 import com.example.concessionaria_campos.repository.VehicleRepository;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,7 +66,7 @@ public class VehicleService {
             fileStorageService.deleteFiles(vehiclePhotos);
 
             existingVehicle.getPhotos().clear();
-            vehicle.setPhotos(existingVehicle.getPhotos());
+            vehicle.setPhotos(vehicleMapper.toDTO(existingVehicle).getPhotos());
             BeanUtils.copyProperties(vehicle, existingVehicle);
             existingVehicle.setId(id);
 

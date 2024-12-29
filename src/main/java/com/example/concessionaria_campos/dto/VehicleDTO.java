@@ -43,6 +43,5 @@ public class VehicleDTO extends RepresentationModel<VehicleDTO> {
 
     private VehicleStatus status;
 
-    @JsonIgnore
-    private Set<Photo> photos;
+    private Set<PhotoDTO> photos;
 }
