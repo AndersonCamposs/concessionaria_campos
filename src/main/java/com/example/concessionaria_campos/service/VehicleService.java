@@ -4,6 +4,7 @@ import com.example.concessionaria_campos.dto.ApiResponse;
 import com.example.concessionaria_campos.dto.PhotoDTO;
 import com.example.concessionaria_campos.dto.VehicleDTO;
 import com.example.concessionaria_campos.entity.Vehicle;
+import com.example.concessionaria_campos.enums.VehicleStatus;
 import com.example.concessionaria_campos.exception.ResourceNotFoundException;
 import com.example.concessionaria_campos.mapper.BrandMapper;
 import com.example.concessionaria_campos.mapper.CategoryMapper;
@@ -106,6 +107,12 @@ public class VehicleService {
                 .orElseThrow(() -> new ResourceNotFoundException("Veículo não encontrado"));
         vehicleRepository.deleteById(id);
         return new ApiResponse("Veículo deletado com sucesso.");
+    }
+
+    public VehicleDTO setVehicleStatus(VehicleDTO vehicle, VehicleStatus status) {
+        vehicle.setStatus(status);
+        Vehicle updatedVehicle = vehicleRepository.save(vehicleMapper.toEntity(vehicle));
+        return vehicleMapper.toDTO(updatedVehicle);
     }
 
     public VehicleDTO convertPOToDto(VehiclePO vehiclePO) {

@@ -50,5 +50,6 @@ public class VehicleDTO extends RepresentationModel<VehicleDTO> {
 
     private Set<PhotoDTO> photos;
 
+    @JsonIgnore
     private Sale sale;
 }
