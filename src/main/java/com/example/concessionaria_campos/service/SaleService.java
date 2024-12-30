@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class SaleService {
@@ -33,5 +34,15 @@ public class SaleService {
         Sale savedSale = saleRepository.save(saleMapper.toEntity(sale));
         vehicleService.setVehicleStatus(sale.getVehicle(), VehicleStatus.SOLD);
         return saleMapper.toDTO(savedSale);
+    }
+
+    // UPDATE METHOD
+
+    public List<SaleDTO> fetchAll() {
+        return saleRepository
+                .findAll()
+                .stream()
+                .map(saleMapper::toDTO)
+                .toList();
     }
 }

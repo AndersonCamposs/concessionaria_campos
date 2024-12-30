@@ -6,12 +6,13 @@ import com.example.concessionaria_campos.validation.ValidPartialVehicle;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class SaleDTO {
+public class SaleDTO extends RepresentationModel<SaleDTO> {
 
     private Long id;
 
