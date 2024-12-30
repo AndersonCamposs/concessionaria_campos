@@ -89,6 +89,11 @@ public class VehicleService {
         }
     }
 
+    public VehicleDTO updateVehicle(VehicleDTO vehicle) {
+        Vehicle savedVehicle = vehicleRepository.save(vehicleMapper.toEntity(vehicle));
+        return vehicleMapper.toDTO(savedVehicle);
+    }
+
     public List<VehicleDTO> fetchAll() {
         return vehicleRepository
                 .findAll()
