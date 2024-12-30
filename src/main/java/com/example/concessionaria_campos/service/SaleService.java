@@ -3,10 +3,12 @@ package com.example.concessionaria_campos.service;
 import com.example.concessionaria_campos.dto.ApiResponse;
 import com.example.concessionaria_campos.dto.SaleDTO;
 import com.example.concessionaria_campos.entity.Sale;
+import com.example.concessionaria_campos.entity.Vehicle;
 import com.example.concessionaria_campos.enums.VehicleStatus;
 import com.example.concessionaria_campos.exception.ResourceNotFoundException;
 import com.example.concessionaria_campos.exception.ResourceUnavailableException;
 import com.example.concessionaria_campos.mapper.SaleMapper;
+import com.example.concessionaria_campos.mapper.VehicleMapper;
 import com.example.concessionaria_campos.repository.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,8 @@ public class SaleService {
     private CustomerService customerService;
     @Autowired
     private VehicleService vehicleService;
+    @Autowired
+    private VehicleMapper vehicleMapper;
 
     public SaleDTO saveSale(SaleDTO sale) {
         sale.setCustomer(customerService.fetchById(sale.getCustomer().getId()));
@@ -58,7 +62,11 @@ public class SaleService {
     public ApiResponse deleteSale(Long id) {
         Sale existingSale = saleRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Venda não encontrada"));
-        vehicleService.setVehicleStatus(existingSale.getVehicle().getId(), VehicleStatus.AVAILABLE);
+        Vehicle vehicle = existingSale.getVehicle();
+        vehicle.setSale(null);
+        vehicle.setStatus(VehicleStatus.AVAILABLE);
+        vehicleService.updateVehicle(vehicleMapper.toDTO(vehicle));
+        
         saleRepository.deleteById(id);
         return new ApiResponse("Venda deletada com sucesso.");
     }
