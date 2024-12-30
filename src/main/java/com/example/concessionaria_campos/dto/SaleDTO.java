@@ -1,9 +1,7 @@
 package com.example.concessionaria_campos.dto;
 
-import com.example.concessionaria_campos.entity.Customer;
 import com.example.concessionaria_campos.validation.ValidPartialCustomer;
 import com.example.concessionaria_campos.validation.ValidPartialVehicle;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;

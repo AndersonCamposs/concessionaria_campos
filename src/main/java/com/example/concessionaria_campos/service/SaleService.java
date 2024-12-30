@@ -66,7 +66,7 @@ public class SaleService {
         vehicle.setSale(null);
         vehicle.setStatus(VehicleStatus.AVAILABLE);
         vehicleService.updateVehicle(vehicleMapper.toDTO(vehicle));
-        
+
         saleRepository.deleteById(id);
         return new ApiResponse("Venda deletada com sucesso.");
     }

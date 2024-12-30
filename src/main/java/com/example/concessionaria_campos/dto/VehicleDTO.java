@@ -1,8 +1,5 @@
 package com.example.concessionaria_campos.dto;
 
-import com.example.concessionaria_campos.entity.Brand;
-import com.example.concessionaria_campos.entity.Category;
-import com.example.concessionaria_campos.entity.Photo;
 import com.example.concessionaria_campos.entity.Sale;
 import com.example.concessionaria_campos.enums.TransmissionType;
 import com.example.concessionaria_campos.enums.VehicleStatus;
@@ -47,6 +44,8 @@ public class VehicleDTO extends RepresentationModel<VehicleDTO> {
 
     @NotNull(message = "O campo 'valor' é obrigatório.", groups = {Create.class, Update.class})
     private Double value;
+
+    private String description;
 
     private Set<PhotoDTO> photos;
 

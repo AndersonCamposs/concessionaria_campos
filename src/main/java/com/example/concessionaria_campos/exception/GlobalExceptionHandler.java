@@ -33,6 +33,13 @@ public class GlobalExceptionHandler {
                 .body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage(), null));
     }
 
+    @ExceptionHandler(ResourceUnavailableException.class)
+    public ResponseEntity<ErrorDetails> handleResourceUnavailableException(ResourceUnavailableException e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage(), null));
+    }
+
     @ExceptionHandler(FileExtensionException.class)
     public ResponseEntity<ErrorDetails> handleFileExtensionException(FileExtensionException e) {
         return ResponseEntity

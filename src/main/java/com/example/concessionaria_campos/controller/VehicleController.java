@@ -9,7 +9,6 @@ import com.example.concessionaria_campos.enums.VehicleStatus;
 import com.example.concessionaria_campos.mapper.VehicleMapper;
 import com.example.concessionaria_campos.param.VehiclePO;
 import com.example.concessionaria_campos.service.VehicleService;
-import com.example.concessionaria_campos.validation.ValidPartialVehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
