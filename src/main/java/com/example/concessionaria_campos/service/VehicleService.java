@@ -14,6 +14,7 @@ import com.example.concessionaria_campos.repository.VehicleRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -109,9 +110,16 @@ public class VehicleService {
         return new ApiResponse("Veículo deletado com sucesso.");
     }
 
-    public VehicleDTO setVehicleStatus(VehicleDTO vehicle, VehicleStatus status) {
-        vehicle.setStatus(status);
-        Vehicle updatedVehicle = vehicleRepository.save(vehicleMapper.toEntity(vehicle));
+    public VehicleDTO setVehicleStatus(Long id, VehicleStatus status) {
+        if (status == null) {
+            throw new RuntimeException("Informe o novo status do veículo");
+        }
+
+        Vehicle existingVehicle = vehicleRepository.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Veículo não encontrado"));
+
+        existingVehicle.setStatus(status);
+        Vehicle updatedVehicle = vehicleRepository.save(existingVehicle);
         return vehicleMapper.toDTO(updatedVehicle);
     }
 

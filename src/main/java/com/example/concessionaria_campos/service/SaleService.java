@@ -33,7 +33,7 @@ public class SaleService {
         }
 
         Sale savedSale = saleRepository.save(saleMapper.toEntity(sale));
-        vehicleService.setVehicleStatus(sale.getVehicle(), VehicleStatus.SOLD);
+        vehicleService.setVehicleStatus(sale.getVehicle().getId(), VehicleStatus.SOLD);
         return saleMapper.toDTO(savedSale);
     }
 
