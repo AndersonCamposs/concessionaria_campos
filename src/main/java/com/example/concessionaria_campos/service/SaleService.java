@@ -3,6 +3,7 @@ package com.example.concessionaria_campos.service;
 import com.example.concessionaria_campos.dto.SaleDTO;
 import com.example.concessionaria_campos.entity.Sale;
 import com.example.concessionaria_campos.enums.VehicleStatus;
+import com.example.concessionaria_campos.exception.ResourceNotFoundException;
 import com.example.concessionaria_campos.exception.ResourceUnavailableException;
 import com.example.concessionaria_campos.mapper.SaleMapper;
 import com.example.concessionaria_campos.repository.SaleRepository;
@@ -44,5 +45,12 @@ public class SaleService {
                 .stream()
                 .map(saleMapper::toDTO)
                 .toList();
+    }
+
+    public SaleDTO fetchById(Long id) {
+        Sale existingSale = saleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Venda não encontrada"));
+
+        return saleMapper.toDTO(existingSale);
     }
 }

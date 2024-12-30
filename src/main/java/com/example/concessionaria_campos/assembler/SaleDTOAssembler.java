@@ -23,6 +23,8 @@ public class SaleDTOAssembler implements RepresentationModelAssembler<Sale, Sale
         SaleDTO saleDTO = saleMapper.toDTO(entity);
 
         saleDTO.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(SaleController.class)
+                .fetchById(entity.getId())).withSelfRel());
+        saleDTO.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(SaleController.class)
                 .fetchAll()).withRel("all-sales"));
 
         saleDTO.setCustomer(customerDTOAssembler.toModel(entity.getCustomer()));

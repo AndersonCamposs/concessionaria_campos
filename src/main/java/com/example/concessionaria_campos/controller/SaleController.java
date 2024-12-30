@@ -45,4 +45,13 @@ public class SaleController {
                 .status(HttpStatus.OK)
                 .body(salesList);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SaleDTO> fetchById(@PathVariable Long id) {
+        SaleDTO existingSale = saleService.fetchById(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(saleDTOAssembler.toModel(saleMapper.toEntity(existingSale)));
+    }
 }
