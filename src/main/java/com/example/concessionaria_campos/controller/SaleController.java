@@ -1,6 +1,7 @@
 package com.example.concessionaria_campos.controller;
 
 import com.example.concessionaria_campos.assembler.SaleDTOAssembler;
+import com.example.concessionaria_campos.dto.ApiResponse;
 import com.example.concessionaria_campos.dto.Create;
 import com.example.concessionaria_campos.dto.SaleDTO;
 import com.example.concessionaria_campos.mapper.SaleMapper;
@@ -53,5 +54,14 @@ public class SaleController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(saleDTOAssembler.toModel(saleMapper.toEntity(existingSale)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse> deleteSale(@PathVariable Long id) {
+        ApiResponse response = saleService.deleteSale(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
     }
 }

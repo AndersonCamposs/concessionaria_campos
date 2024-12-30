@@ -1,5 +1,6 @@
 package com.example.concessionaria_campos.service;
 
+import com.example.concessionaria_campos.dto.ApiResponse;
 import com.example.concessionaria_campos.dto.SaleDTO;
 import com.example.concessionaria_campos.entity.Sale;
 import com.example.concessionaria_campos.enums.VehicleStatus;
@@ -29,7 +30,7 @@ public class SaleService {
         sale.setVehicle(vehicleService.fetchById(sale.getVehicle().getId()));
         sale.setDate(LocalDateTime.now());
         if (!(sale.getVehicle().getStatus() == VehicleStatus.AVAILABLE)) {
-            throw new ResourceUnavailableException("Veículo não disponível indisponível para venda");
+            throw new ResourceUnavailableException("Veículo não disponível para venda");
         }
 
         Sale savedSale = saleRepository.save(saleMapper.toEntity(sale));
@@ -37,7 +38,7 @@ public class SaleService {
         return saleMapper.toDTO(savedSale);
     }
 
-    // UPDATE METHOD
+    // UPDATE METHOD (NOT ALLOWED)
 
     public List<SaleDTO> fetchAll() {
         return saleRepository
@@ -52,5 +53,13 @@ public class SaleService {
                 .orElseThrow(() -> new ResourceNotFoundException("Venda não encontrada"));
 
         return saleMapper.toDTO(existingSale);
+    }
+
+    public ApiResponse deleteSale(Long id) {
+        Sale existingSale = saleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Venda não encontrada"));
+        vehicleService.setVehicleStatus(existingSale.getVehicle().getId(), VehicleStatus.AVAILABLE);
+        saleRepository.deleteById(id);
+        return new ApiResponse("Venda deletada com sucesso.");
     }
 }
