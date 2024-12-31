@@ -36,7 +36,7 @@ public class FileStorageService {
         Path filePath = uploadPath.resolve(fileName);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        return "/" + filePath.toString().replace("\\", "/");
+        return filePath.toString().replace("\\", "/");
     }
 
     public List<PhotoDTO> saveFiles(List<MultipartFile> files, String subFolder) throws IOException {
@@ -57,7 +57,7 @@ public class FileStorageService {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             dto.setName(fileName);
-            dto.setPath("/" + filePath.toString().replace("\\", "/"));
+            dto.setPath(filePath.toString().replace("\\", "/"));
             dtos.addLast(dto);
         }
 
@@ -65,8 +65,7 @@ public class FileStorageService {
     }
 
     public void deleteFile(String path) {
-        Path basePath = Paths.get(System.getProperty("user.dir") + path);
-        File file = basePath.toFile();
+        File file = Paths.get(System.getProperty("user.dir"), path).toFile();
         if (file.exists()) {
             if (!file.delete()) {
                 throw new RuntimeException("Erro ao deletar o arquivo: " + file.getName());
@@ -78,7 +77,7 @@ public class FileStorageService {
 
     public void deleteFiles(List<PhotoDTO> files) {
         for (PhotoDTO photo: files) {
-            File file = new File(photo.getPath());
+            File file = Paths.get(System.getProperty("user.dir"), photo.getPath()).toFile();
             if (file.exists()) {
                 if(!file.delete()) {
                     throw new RuntimeException("Erro ao deletar o arquivo: " + photo.getName());
