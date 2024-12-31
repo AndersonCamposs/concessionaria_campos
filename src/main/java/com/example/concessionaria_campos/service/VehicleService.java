@@ -41,7 +41,7 @@ public class VehicleService {
 
     public VehicleDTO saveVehicle(VehicleDTO vehicle, List<MultipartFile> files) {
         try {
-            fileStorageService.validate(files);;
+            fileStorageService.validate(files);
             Vehicle savedVehicle = vehicleRepository.save(vehicleMapper.toEntity(vehicle));
             if (!files.isEmpty()) {
                 List<PhotoDTO> savedFiles = fileStorageService.saveFiles(files, "vehicles");

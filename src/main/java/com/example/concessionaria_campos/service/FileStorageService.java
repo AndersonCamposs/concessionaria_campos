@@ -2,6 +2,7 @@ package com.example.concessionaria_campos.service;
 
 import com.example.concessionaria_campos.dto.PhotoDTO;
 import com.example.concessionaria_campos.exception.FileExtensionException;
+import org.hibernate.sql.Delete;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,6 +62,18 @@ public class FileStorageService {
         }
 
         return dtos;
+    }
+
+    public void deleteFile(String path) {
+        Path basePath = Paths.get(System.getProperty("user.dir") + path);
+        File file = basePath.toFile();
+        if (file.exists()) {
+            if (!file.delete()) {
+                throw new RuntimeException("Erro ao deletar o arquivo: " + file.getName());
+            }
+        } else {
+            throw new RuntimeException("Erro ao encontrar o arquivo: " + file.getName());
+        }
     }
 
     public void deleteFiles(List<PhotoDTO> files) {
