@@ -48,6 +48,12 @@ public class Vehicle {
     @Column(name = "value", nullable = false)
     private Double value;
 
+    @Column(name = "description")
+    private String description;
+
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Photo> photos;
+
+    @OneToOne(mappedBy = "vehicle", cascade = CascadeType.REMOVE)
+    private Sale sale;
 }

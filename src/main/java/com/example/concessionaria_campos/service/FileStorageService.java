@@ -2,6 +2,7 @@ package com.example.concessionaria_campos.service;
 
 import com.example.concessionaria_campos.dto.PhotoDTO;
 import com.example.concessionaria_campos.exception.FileExtensionException;
+import org.hibernate.sql.Delete;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,7 +36,7 @@ public class FileStorageService {
         Path filePath = uploadPath.resolve(fileName);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        return "/" + filePath.toString().replace("\\", "/");
+        return filePath.toString().replace("\\", "/");
     }
 
     public List<PhotoDTO> saveFiles(List<MultipartFile> files, String subFolder) throws IOException {
@@ -56,16 +57,27 @@ public class FileStorageService {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             dto.setName(fileName);
-            dto.setPath("/" + filePath.toString().replace("\\", "/"));
+            dto.setPath(filePath.toString().replace("\\", "/"));
             dtos.addLast(dto);
         }
 
         return dtos;
     }
 
+    public void deleteFile(String path) {
+        File file = Paths.get(System.getProperty("user.dir"), path).toFile();
+        if (file.exists()) {
+            if (!file.delete()) {
+                throw new RuntimeException("Erro ao deletar o arquivo: " + file.getName());
+            }
+        } else {
+            throw new RuntimeException("Erro ao encontrar o arquivo: " + file.getName());
+        }
+    }
+
     public void deleteFiles(List<PhotoDTO> files) {
         for (PhotoDTO photo: files) {
-            File file = new File(photo.getPath());
+            File file = Paths.get(System.getProperty("user.dir"), photo.getPath()).toFile();
             if (file.exists()) {
                 if(!file.delete()) {
                     throw new RuntimeException("Erro ao deletar o arquivo: " + photo.getName());

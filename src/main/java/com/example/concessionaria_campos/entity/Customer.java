@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name="customer")
@@ -28,5 +29,7 @@ public class Customer {
     @Column(name = "born_Date", nullable = false)
     private LocalDate bornDate;
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Set<Sale> purchases;
 }
 

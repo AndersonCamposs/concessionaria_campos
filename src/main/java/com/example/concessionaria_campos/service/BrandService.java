@@ -26,7 +26,7 @@ public class BrandService {
 
     public BrandDTO saveBrand(@Validated BrandDTO brand, MultipartFile file) {
         try {
-            if (file != null && !file.isEmpty()) {
+            if (file != null) {
                 brand.setImage(fileStorageService.saveFile(file, "brands"));
             }
             Brand savedBrand = brandRepository.save(brandMapper.toEntity(brand));
@@ -42,7 +42,8 @@ public class BrandService {
         Brand existingBrand = brandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Marca não encontrada"));
         try {
-            if (file != null && !file.isEmpty()) {
+            fileStorageService.deleteFile(existingBrand.getImage());
+            if (file != null) {
                 existingBrand.setImage(fileStorageService.saveFile(file, "brands"));
             }
             existingBrand.setName(brand.getName());

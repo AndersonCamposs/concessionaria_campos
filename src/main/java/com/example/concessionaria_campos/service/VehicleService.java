@@ -4,6 +4,7 @@ import com.example.concessionaria_campos.dto.ApiResponse;
 import com.example.concessionaria_campos.dto.PhotoDTO;
 import com.example.concessionaria_campos.dto.VehicleDTO;
 import com.example.concessionaria_campos.entity.Vehicle;
+import com.example.concessionaria_campos.enums.VehicleStatus;
 import com.example.concessionaria_campos.exception.ResourceNotFoundException;
 import com.example.concessionaria_campos.mapper.BrandMapper;
 import com.example.concessionaria_campos.mapper.CategoryMapper;
@@ -13,6 +14,7 @@ import com.example.concessionaria_campos.repository.VehicleRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -39,7 +41,7 @@ public class VehicleService {
 
     public VehicleDTO saveVehicle(VehicleDTO vehicle, List<MultipartFile> files) {
         try {
-            fileStorageService.validate(files);;
+            fileStorageService.validate(files);
             Vehicle savedVehicle = vehicleRepository.save(vehicleMapper.toEntity(vehicle));
             if (!files.isEmpty()) {
                 List<PhotoDTO> savedFiles = fileStorageService.saveFiles(files, "vehicles");
@@ -87,6 +89,11 @@ public class VehicleService {
         }
     }
 
+    public VehicleDTO updateVehicle(VehicleDTO vehicle) {
+        Vehicle savedVehicle = vehicleRepository.save(vehicleMapper.toEntity(vehicle));
+        return vehicleMapper.toDTO(savedVehicle);
+    }
+
     public List<VehicleDTO> fetchAll() {
         return vehicleRepository
                 .findAll()
@@ -108,6 +115,19 @@ public class VehicleService {
         return new ApiResponse("Veículo deletado com sucesso.");
     }
 
+    public VehicleDTO setVehicleStatus(Long id, VehicleStatus status) {
+        if (status == null) {
+            throw new RuntimeException("Informe o novo status do veículo");
+        }
+
+        Vehicle existingVehicle = vehicleRepository.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Veículo não encontrado"));
+
+        existingVehicle.setStatus(status);
+        Vehicle updatedVehicle = vehicleRepository.save(existingVehicle);
+        return vehicleMapper.toDTO(updatedVehicle);
+    }
+
     public VehicleDTO convertPOToDto(VehiclePO vehiclePO) {
         VehicleDTO vehicleDTO = new VehicleDTO();
         vehicleDTO.setModel(vehiclePO.getModel());
@@ -117,8 +137,9 @@ public class VehicleService {
         vehicleDTO.setYear(vehiclePO.getYear());
         vehicleDTO.setCategory(categoryService.fetchById(vehiclePO.getCategoryId()));
         vehicleDTO.setTransmissionType(vehiclePO.getTransmissionType());
-        vehicleDTO.setValue(vehiclePO.getValue());
         vehicleDTO.setStatus(vehiclePO.getStatus());
+        vehicleDTO.setValue(vehiclePO.getValue());
+        vehicleDTO.setDescription(vehiclePO.getDescription());
 
         return vehicleDTO;
     }
