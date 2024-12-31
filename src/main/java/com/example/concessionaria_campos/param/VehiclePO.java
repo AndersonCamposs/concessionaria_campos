@@ -40,4 +40,6 @@ public class VehiclePO {
 
     @NotNull(message = "O campo 'valor' é obrigatório.", groups = {Create.class, Update.class})
     private Double value;
+
+    private String description;
 }

@@ -137,8 +137,9 @@ public class VehicleService {
         vehicleDTO.setYear(vehiclePO.getYear());
         vehicleDTO.setCategory(categoryService.fetchById(vehiclePO.getCategoryId()));
         vehicleDTO.setTransmissionType(vehiclePO.getTransmissionType());
-        vehicleDTO.setValue(vehiclePO.getValue());
         vehicleDTO.setStatus(vehiclePO.getStatus());
+        vehicleDTO.setValue(vehiclePO.getValue());
+        vehicleDTO.setDescription(vehiclePO.getDescription());
 
         return vehicleDTO;
     }
