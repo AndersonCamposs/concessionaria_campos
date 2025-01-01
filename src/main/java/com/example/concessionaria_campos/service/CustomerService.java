@@ -32,6 +32,7 @@ public class CustomerService {
         Customer existingCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
         existingCustomer.setName(customer.getName());
+        existingCustomer.setEmail(customer.getEmail());
         Customer updatedCustomer = customerRepository.save(existingCustomer);
         return customerMapper.toDTO(updatedCustomer);
     }
