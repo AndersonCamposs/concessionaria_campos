@@ -24,10 +24,10 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> {
 
     @NotNull(message =  "O campo 'cpf' é obrigatório", groups = Create.class)
     @Pattern(regexp = "[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{2}", message = "Padrão inválido de CPF.", groups = Create.class)
-    @ValidCPF(groups = { Create.class, Update.class })
+    @ValidCPF(groups = { Create.class })
     private String cpf;
 
-    @Email(message = "E-mail inválido.")
+    @Email(message = "E-mail inválido.", groups = {Create.class, Update.class})
     private String email;
 
     @NotNull(message = "O campo 'dataNascimento' é obrigatório.", groups = Create.class)
