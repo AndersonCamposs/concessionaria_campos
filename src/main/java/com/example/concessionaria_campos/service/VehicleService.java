@@ -55,6 +55,8 @@ public class VehicleService {
 
         } catch (IOException e) {
             throw  new RuntimeException("Erro ao salvar arquivo(s)");
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao salvar dados do veículo");
         }
     }
 

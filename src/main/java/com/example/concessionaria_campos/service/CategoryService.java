@@ -32,11 +32,16 @@ public class CategoryService {
     public CategoryDTO updateCategory(CategoryDTO category, Long id) {
         Category existingCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
-        BeanUtils.copyProperties(category, existingCategory);
-        existingCategory.setId(id);
-        Category updatedCategory = categoryRepository.save(existingCategory);
+        try {
+            BeanUtils.copyProperties(category, existingCategory);
+            existingCategory.setId(id);
+            Category updatedCategory = categoryRepository.save(existingCategory);
 
-        return categoryMapper.toDTO(updatedCategory);
+            return categoryMapper.toDTO(updatedCategory);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar dados da categoria");
+        }
+
     }
 
     public List<CategoryDTO> fetchAll() {
