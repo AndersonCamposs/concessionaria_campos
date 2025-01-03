@@ -30,7 +30,7 @@ public class SaleController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(savedSale);
+                .body(saleDTOAssembler.toModel(saleMapper.toEntity(savedSale)));
     }
 
     //@PutMapping("/{id}")
