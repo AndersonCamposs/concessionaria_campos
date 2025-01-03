@@ -34,10 +34,7 @@ public class BrandService {
             return brandMapper.toDTO(savedBrand);
         } catch (IOException e) {
             throw new RuntimeException("Erro ao salvar arquivo.");
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao salvar dados da marca");
         }
-
     }
 
     public BrandDTO updateBrand(BrandDTO brand, MultipartFile file, Long id) {
@@ -54,8 +51,6 @@ public class BrandService {
             return brandMapper.toDTO(updatedBrand);
         } catch (IOException e) {
             throw new RuntimeException("Erro ao salvar arquivo.");
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao atualizar dados da marca");
         }
     }
 
