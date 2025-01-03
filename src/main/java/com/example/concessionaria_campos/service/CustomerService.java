@@ -31,10 +31,14 @@ public class CustomerService {
     public CustomerDTO updateCustomer(CustomerDTO customer, Long id) {
         Customer existingCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
-        existingCustomer.setName(customer.getName());
-        existingCustomer.setEmail(customer.getEmail());
-        Customer updatedCustomer = customerRepository.save(existingCustomer);
-        return customerMapper.toDTO(updatedCustomer);
+        try {
+            existingCustomer.setName(customer.getName());
+            existingCustomer.setEmail(customer.getEmail());
+            Customer updatedCustomer = customerRepository.save(existingCustomer);
+            return customerMapper.toDTO(updatedCustomer);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar os dados do cliente");
+        }
     }
 
     public List<CustomerDTO> fetchAll() {
