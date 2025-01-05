@@ -73,7 +73,19 @@ public class CustomerController {
         List<CustomerDTO> customerList = customerService.fetchAll()
                 .stream()
                 .map(customerDTO -> customerDTOAssembler.toModel(customerMapper.toEntity(customerDTO)))
-                .collect(Collectors.toList());
+                .toList();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(customerList);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<CustomerDTO>> fetchByFilter(@RequestParam(value = "name") String name) {
+        List<CustomerDTO> customerList = customerService.fetchByFilter(name)
+                .stream()
+                .map(customerDTO -> customerDTOAssembler.toModel(customerMapper.toEntity(customerDTO)))
+                .toList();
 
         return ResponseEntity
                 .status(HttpStatus.OK)

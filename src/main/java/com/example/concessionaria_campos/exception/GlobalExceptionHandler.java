@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -54,10 +55,17 @@ public class GlobalExceptionHandler {
                 .body(new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "O corpo da requisição precisa ser enviado.", null));
     }
 
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ErrorDetails> handleRequestParamException(MissingServletRequestParameterException e) {
+       return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorDetails(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null));
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorDetails> handlerRuntimeException(RuntimeException e) {
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), null));
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorDetails(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null));
     }
 }

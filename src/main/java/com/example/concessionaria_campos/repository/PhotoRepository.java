@@ -11,5 +11,5 @@ import java.util.List;
 public interface PhotoRepository extends JpaRepository<Photo, Long> {
 
     @Query("SELECT p FROM Photo p WHERE p.vehicle = :vehicle")
-    public List<Photo> findByVehicle(@Param("vehicle") Vehicle vehicle);
+    List<Photo> findByVehicle(@Param("vehicle") Vehicle vehicle);
 }

@@ -49,6 +49,14 @@ public class CustomerService {
                 .toList();
     }
 
+    public List<CustomerDTO> fetchByFilter(String name) {
+        return customerRepository
+                .findByName(name)
+                .stream()
+                .map(customerMapper::toDTO)
+                .toList();
+    }
+
     public CustomerDTO fetchById(Long id) {
         Customer existingCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente de não encontrado"));
