@@ -24,6 +24,6 @@ public class Sale {
     private Vehicle vehicle;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = true)
     private Customer customer;
 }

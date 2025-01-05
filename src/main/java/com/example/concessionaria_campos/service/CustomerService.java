@@ -7,6 +7,7 @@ import com.example.concessionaria_campos.exception.ResourceNotFoundException;
 import com.example.concessionaria_campos.mapper.CustomerMapper;
 import com.example.concessionaria_campos.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ public class CustomerService {
     private CustomerRepository customerRepository;
     @Autowired
     private CustomerMapper customerMapper;
+    @Autowired
+    @Lazy
+    private SaleService saleService;
 
     public CustomerDTO saveCustomer(CustomerDTO customer) {
         try {
@@ -66,6 +70,7 @@ public class CustomerService {
     public ApiResponse deleteCustomer(Long id) {
         Customer existingCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente de não encontrado"));
+        saleService.dissociateSalesFromCustomer(existingCustomer.getId());
         customerRepository.deleteById(existingCustomer.getId());
         return new ApiResponse("Cliente deletado com sucesso");
     }

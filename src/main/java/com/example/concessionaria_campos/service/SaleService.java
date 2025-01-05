@@ -70,4 +70,12 @@ public class SaleService {
         saleRepository.deleteById(id);
         return new ApiResponse("Venda deletada com sucesso.");
     }
+
+    public void dissociateSalesFromCustomer(Long id) {
+        List<Sale> saleList = saleRepository.findByUserId(id);
+        for(Sale sale: saleList) {
+            sale.setCustomer(null);
+            saleRepository.save(sale);
+        }
+    }
 }
