@@ -71,6 +71,7 @@ public class BrandService {
     public ApiResponse deleteBrand(Long id) {
         Brand existingBrand = brandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Marca não encontrada"));
+        fileStorageService.deleteFile(existingBrand.getImage());
         brandRepository.deleteById(id);
         return new ApiResponse("Marca deletada com sucesso");
     }
