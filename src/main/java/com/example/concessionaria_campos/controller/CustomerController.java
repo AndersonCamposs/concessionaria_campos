@@ -16,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/customer")
@@ -81,8 +80,8 @@ public class CustomerController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<CustomerDTO>> fetchByFilter(@RequestParam(value = "name") String name) {
-        List<CustomerDTO> customerList = customerService.fetchByFilter(name)
+    public ResponseEntity<List<CustomerDTO>> fetchByName(@RequestParam(value = "name") String name) {
+        List<CustomerDTO> customerList = customerService.fetchByName(name)
                 .stream()
                 .map(customerDTO -> customerDTOAssembler.toModel(customerMapper.toEntity(customerDTO)))
                 .toList();
