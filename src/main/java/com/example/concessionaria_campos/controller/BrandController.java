@@ -65,6 +65,18 @@ public class BrandController {
                 .body(brandList);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<BrandDTO>> fetchByName(@RequestParam(value = "name") String name) {
+        List<BrandDTO> brandList = brandService.fetchByName(name)
+                .stream()
+                .map(brandDTO -> brandDTOAssembler.toModel(brandMapper.toEntity(brandDTO)))
+                .toList();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(brandList);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<BrandDTO> fetchById(@PathVariable Long id) {
         BrandDTO existingBrand = brandService.fetchById(id);

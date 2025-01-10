@@ -25,6 +25,7 @@ public class BrandService {
     private FileStorageService fileStorageService;
 
     public BrandDTO saveBrand(@Validated BrandDTO brand, MultipartFile file) {
+        fileStorageService.validate(file);
         try {
             if (file != null) {
                 brand.setImage(fileStorageService.saveFile(file, "brands"));
@@ -38,6 +39,8 @@ public class BrandService {
     }
 
     public BrandDTO updateBrand(BrandDTO brand, MultipartFile file, Long id) {
+        fileStorageService.validate(file);
+
         Brand existingBrand = brandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Marca não encontrada"));
         try {
@@ -57,6 +60,13 @@ public class BrandService {
     public List<BrandDTO> fetchAll() {
         return brandRepository
                 .findAll()
+                .stream()
+                .map(brandMapper::toDTO)
+                .toList();
+    }
+
+    public List<BrandDTO> fetchByName(String name) {
+        return brandRepository.findByName(name)
                 .stream()
                 .map(brandMapper::toDTO)
                 .toList();
