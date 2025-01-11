@@ -54,6 +54,13 @@ public class CategoryService {
                 .toList();
     }
 
+    public List<CategoryDTO> fetchByName(String name) {
+        return categoryRepository.findByName(name)
+                .stream()
+                .map(categoryMapper::toDTO)
+                .toList();
+    }
+
     public CategoryDTO fetchById(Long id) {
         Category existingCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));

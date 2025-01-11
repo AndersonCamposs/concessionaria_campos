@@ -54,6 +54,20 @@ public class CategoryController {
                 .body(categoryList);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<CategoryDTO>> fetchByName(
+            @RequestParam(value = "name", required = true
+    ) String name) {
+        List<CategoryDTO> categoryList = categoryService.fetchByName(name)
+                .stream()
+                .map(categoryDTO -> categoryDTOAssembler.toModel(categoryMapper.toEntity(categoryDTO)))
+                .toList();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(categoryList);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDTO> fetchById(@PathVariable Long id) {
         CategoryDTO existingCategory = categoryService.fetchById(id);
