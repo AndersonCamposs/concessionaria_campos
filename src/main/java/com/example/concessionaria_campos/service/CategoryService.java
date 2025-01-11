@@ -3,6 +3,7 @@ package com.example.concessionaria_campos.service;
 import com.example.concessionaria_campos.dto.ApiResponse;
 import com.example.concessionaria_campos.dto.CategoryDTO;
 import com.example.concessionaria_campos.entity.Category;
+import com.example.concessionaria_campos.entity.Vehicle;
 import com.example.concessionaria_campos.exception.ResourceNotFoundException;
 import com.example.concessionaria_campos.mapper.CategoryMapper;
 import com.example.concessionaria_campos.repository.CategoryRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CategoryService {
@@ -33,13 +35,13 @@ public class CategoryService {
         Category existingCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
         try {
-            BeanUtils.copyProperties(category, existingCategory);
-            existingCategory.setId(id);
+            existingCategory.setName(category.getName());
+            existingCategory.setDescription(category.getDescription());
             Category updatedCategory = categoryRepository.save(existingCategory);
 
             return categoryMapper.toDTO(updatedCategory);
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao atualizar dados da categoria");
+            throw new RuntimeException("Erro ao atualizar dados da categoria\n" + e.getMessage());
         }
 
     }
