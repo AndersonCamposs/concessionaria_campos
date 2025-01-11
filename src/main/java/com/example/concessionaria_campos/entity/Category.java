@@ -22,6 +22,6 @@ public class Category {
     @Column(name = "description", nullable = true)
     private String description;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category")
     private Set<Vehicle> vehicles;
 }

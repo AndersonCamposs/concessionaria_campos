@@ -34,7 +34,7 @@ public class Vehicle {
     private Integer year;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id", nullable = true)
     private Category category;
 
     @Column(name = "transmission_type", nullable = false, columnDefinition = "enum('AUTOMATIC','MANUAL')")
