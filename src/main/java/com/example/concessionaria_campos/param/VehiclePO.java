@@ -41,5 +41,8 @@ public class VehiclePO {
     @NotNull(message = "O campo 'valor' é obrigatório.", groups = {Create.class, Update.class})
     private Double value;
 
+    @NotNull(message = "O campo 'valor do odômetro' é obrigatório.", groups = {Create.class, Update.class})
+    private Integer odometerValue;
+
     private String description;
 }

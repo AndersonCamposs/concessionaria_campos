@@ -48,6 +48,9 @@ public class Vehicle {
     @Column(name = "value", nullable = false)
     private Double value;
 
+    @Column(name = "odometer_value", nullable = true)
+    private Integer odometerValue;
+
     @Column(name = "description")
     private String description;
 
