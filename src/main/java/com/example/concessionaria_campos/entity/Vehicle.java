@@ -33,6 +33,9 @@ public class Vehicle {
     @Column(name = "year", nullable = false)
     private Integer year;
 
+    @Column(name = "color", nullable = true)
+    private String color;
+
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = true)
     private Category category;
@@ -52,6 +55,7 @@ public class Vehicle {
     private Integer odometerValue;
 
     @Column(name = "description")
+    @Lob
     private String description;
 
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)

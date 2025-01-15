@@ -33,6 +33,8 @@ public class VehicleDTO extends RepresentationModel<VehicleDTO> {
     @NotNull(message = "O campo 'ano de fabricação' é obrigatório.", groups = {Create.class, Update.class})
     private Integer year;
 
+    private String color;
+
     @NotNull(message = "O campo 'categoria' é obrigatório.", groups = {Create.class, Update.class})
     private CategoryDTO category;
 
