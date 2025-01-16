@@ -54,7 +54,7 @@ public class Vehicle {
     @Column(name = "odometer_value", nullable = true)
     private Integer odometerValue;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 2500)
     @Lob
     private String description;
 
