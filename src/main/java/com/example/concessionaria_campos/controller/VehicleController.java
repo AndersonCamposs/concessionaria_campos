@@ -32,7 +32,7 @@ public class VehicleController {
     @PostMapping
     public ResponseEntity<VehicleDTO> saveVehicle(
             @Validated(Create.class) @ModelAttribute VehiclePO vehiclePO,
-            @RequestParam(value = "file", required = false) List<MultipartFile> files
+            @RequestParam(value = "files", required = false) List<MultipartFile> files
     ) {
         VehicleDTO savedVehicle = vehicleService.saveVehicle(vehicleService.convertPOToDto(vehiclePO), files);
 
