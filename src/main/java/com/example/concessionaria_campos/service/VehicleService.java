@@ -135,10 +135,12 @@ public class VehicleService {
         vehicleDTO.setPlate(vehiclePO.getPlate());
         vehicleDTO.setBrand(brandService.fetchById(vehiclePO.getBrandId()));
         vehicleDTO.setYear(vehiclePO.getYear());
+        vehicleDTO.setColor(vehiclePO.getColor());
         vehicleDTO.setCategory(categoryService.fetchById(vehiclePO.getCategoryId()));
         vehicleDTO.setTransmissionType(vehiclePO.getTransmissionType());
         vehicleDTO.setStatus(vehiclePO.getStatus());
         vehicleDTO.setValue(vehiclePO.getValue());
+        vehicleDTO.setOdometerValue(vehiclePO.getOdometerValue());
         vehicleDTO.setDescription(vehiclePO.getDescription());
 
         return vehicleDTO;
