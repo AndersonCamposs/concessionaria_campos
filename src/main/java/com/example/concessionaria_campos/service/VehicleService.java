@@ -108,6 +108,14 @@ public class VehicleService {
         return vehicleMapper.toDTO(existingVehicle);
     }
 
+    public VehicleDTO fetchByPlate(String plate) {
+        Vehicle existingVehicle = vehicleRepository.findByPlate(plate)
+                .orElseThrow(() -> new ResourceNotFoundException("Veículo não encontrado."));
+
+        return vehicleMapper.toDTO(existingVehicle);
+
+    }
+
     public ApiResponse deleteVehicle(Long id) {
         Vehicle existingVehicle = vehicleRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Veículo não encontrado"));

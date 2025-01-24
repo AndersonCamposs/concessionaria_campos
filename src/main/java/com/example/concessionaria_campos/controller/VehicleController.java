@@ -76,6 +76,15 @@ public class VehicleController {
                 .body(vehicleDTOAssembler.toModel(vehicleMapper.toEntity(existingVehicle)));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<VehicleDTO> fetchByPlate(@RequestParam(value = "plate") String plate) {
+        VehicleDTO existingVehicle = vehicleService.fetchByPlate(plate);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(vehicleDTOAssembler.toModel(vehicleMapper.toEntity(existingVehicle)));
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<VehicleDTO> setVehicleStatus(
             @RequestBody VehicleStatus status,
