@@ -78,8 +78,8 @@ public class VehicleService {
                 List<PhotoDTO> savedFiles = fileStorageService.saveFiles(files, "vehicles");
                 for (PhotoDTO photo: savedFiles) {
                     photo.setVehicle(updatedVehicle);
-                    photoService.saveManyPhotos(savedFiles);
                 }
+                photoService.saveManyPhotos(savedFiles);
             }
 
             return vehicleMapper.toDTO(updatedVehicle);
