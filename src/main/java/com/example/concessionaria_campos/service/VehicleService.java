@@ -111,6 +111,8 @@ public class VehicleService {
     public ApiResponse deleteVehicle(Long id) {
         Vehicle existingVehicle = vehicleRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Veículo não encontrado"));
+        List<PhotoDTO> vehiclePhotos = photoService.fetchByVehicle(existingVehicle);
+        fileStorageService.deleteFiles(vehiclePhotos);
         vehicleRepository.deleteById(id);
         return new ApiResponse("Veículo deletado com sucesso.");
     }
