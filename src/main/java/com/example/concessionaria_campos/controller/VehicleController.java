@@ -44,7 +44,7 @@ public class VehicleController {
     @PutMapping("/{id}")
     public ResponseEntity<VehicleDTO> updateVehicle(
             @Validated(Update.class) @ModelAttribute VehiclePO vehiclePO,
-            @RequestParam(value = "file", required = false) List<MultipartFile> files,
+            @RequestParam(value = "files", required = false) List<MultipartFile> files,
             @PathVariable Long id
     ) {
         VehicleDTO updatedVehicle = vehicleService.updateVehicle(vehicleService.convertPOToDto(vehiclePO), files, id);
