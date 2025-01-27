@@ -11,8 +11,10 @@ import com.example.concessionaria_campos.mapper.CategoryMapper;
 import com.example.concessionaria_campos.mapper.VehicleMapper;
 import com.example.concessionaria_campos.param.VehiclePO;
 import com.example.concessionaria_campos.repository.VehicleRepository;
+import com.example.concessionaria_campos.repository.specification.VehicleEspecification;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.multipart.MultipartFile;
@@ -113,6 +115,43 @@ public class VehicleService {
                 .orElseThrow(() -> new ResourceNotFoundException("Veículo não encontrado."));
 
         return vehicleMapper.toDTO(existingVehicle);
+
+    }
+
+    public List<VehicleDTO> fetchByFilters(
+            Long brandId,
+            String model,
+            Integer year,
+            Double value,
+            Long categoryId
+    ) {
+        Specification<Vehicle> spec = Specification.where(null);
+
+        if (brandId != null) {
+            spec = spec.and(VehicleEspecification.withBrand(brandId));
+        }
+
+        if (model != null) {
+            spec = spec.and(VehicleEspecification.withModel(model));
+        }
+
+        if (year != null) {
+            spec = spec.and(VehicleEspecification.withYear(year));
+        }
+
+        if (value != null) {
+            spec = spec.and(VehicleEspecification.withValue(value));
+        }
+
+        if (categoryId != null) {
+            spec = spec.and(VehicleEspecification.withCategory(categoryId));
+        }
+
+        return vehicleRepository
+                .findAll(spec)
+                .stream()
+                .map(vehicleMapper::toDTO)
+                .toList();
 
     }
 

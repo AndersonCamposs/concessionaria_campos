@@ -85,6 +85,22 @@ public class VehicleController {
                 .body(vehicleDTOAssembler.toModel(vehicleMapper.toEntity(existingVehicle)));
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<List<VehicleDTO>> fetchByFilters(
+            @RequestParam(value="brand", required = false) Long brandId,
+            @RequestParam(value="model", required = false) String model,
+            @RequestParam(value="year", required = false) Integer year,
+            @RequestParam(value="value", required = false) Double value,
+            @RequestParam(value="category", required = false) Long category
+    ) {
+        List<VehicleDTO> vehicleList = vehicleService.fetchByFilters(brandId, model, year, value, category);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(vehicleList);
+    }
+
+
     @PatchMapping("/{id}")
     public ResponseEntity<VehicleDTO> setVehicleStatus(
             @RequestBody VehicleStatus status,
