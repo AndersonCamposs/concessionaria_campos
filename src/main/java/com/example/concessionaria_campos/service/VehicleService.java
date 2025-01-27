@@ -3,6 +3,8 @@ package com.example.concessionaria_campos.service;
 import com.example.concessionaria_campos.dto.ApiResponse;
 import com.example.concessionaria_campos.dto.PhotoDTO;
 import com.example.concessionaria_campos.dto.VehicleDTO;
+import com.example.concessionaria_campos.entity.Brand;
+import com.example.concessionaria_campos.entity.Category;
 import com.example.concessionaria_campos.entity.Vehicle;
 import com.example.concessionaria_campos.enums.VehicleStatus;
 import com.example.concessionaria_campos.exception.ResourceNotFoundException;
@@ -128,7 +130,9 @@ public class VehicleService {
         Specification<Vehicle> spec = Specification.where(null);
 
         if (brandId != null) {
-            spec = spec.and(VehicleEspecification.withBrand(brandId));
+            Brand brand = new Brand();
+            brand.setId(brandId);
+            spec = spec.and(VehicleEspecification.withBrand(brand));
         }
 
         if (model != null) {
@@ -144,7 +148,9 @@ public class VehicleService {
         }
 
         if (categoryId != null) {
-            spec = spec.and(VehicleEspecification.withCategory(categoryId));
+            Category category = new Category();
+            category.setId(categoryId);
+            spec = spec.and(VehicleEspecification.withCategory(category));
         }
 
         return vehicleRepository
