@@ -34,6 +34,13 @@ public class GlobalExceptionHandler {
                 .body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage(), null));
     }
 
+    @ExceptionHandler(RegisterAlreadyExists.class)
+    public ResponseEntity<ErrorDetails> handleRegisterAlreadyExists(RegisterAlreadyExists e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorDetails(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null));
+    }
+
     @ExceptionHandler(ResourceUnavailableException.class)
     public ResponseEntity<ErrorDetails> handleResourceUnavailableException(ResourceUnavailableException e) {
         return ResponseEntity
