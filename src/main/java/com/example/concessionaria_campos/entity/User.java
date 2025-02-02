@@ -22,8 +22,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
+    @Column(name = "login", nullable = false, unique = true)
+    private String login;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -32,8 +32,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public User(String username, String password, UserRole role) {
-        this.username = username;
+    public User(String login, String password, UserRole role) {
+        this.login = login;
         this.password = password;
         this.role = role;
     }
@@ -51,7 +51,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return login;
     }
 
     @Override
