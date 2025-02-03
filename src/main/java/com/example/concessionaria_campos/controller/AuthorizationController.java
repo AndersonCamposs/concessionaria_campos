@@ -5,8 +5,10 @@ import com.example.concessionaria_campos.dto.RegisterDTO;
 import com.example.concessionaria_campos.entity.User;
 import com.example.concessionaria_campos.service.JwtService;
 import com.example.concessionaria_campos.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,7 +38,10 @@ public class AuthorizationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody @Valid AuthenticationDTO authenticationDTO) {
+    public ResponseEntity<Map<String, Object>> login(
+        @RequestBody @Valid AuthenticationDTO authenticationDTO,
+        HttpServletResponse response
+    ) {
         UsernamePasswordAuthenticationToken authenticationToken
                 = new UsernamePasswordAuthenticationToken(
                     authenticationDTO.getLogin(),
@@ -46,13 +51,26 @@ public class AuthorizationController {
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
         String token = jwtService.generateToken((User) authentication.getPrincipal());
+        jwtService.addTokenToCookie(response, token);
 
-        Map<String, Object> response = new LinkedHashMap<>();
-        response.put("token", token);
+        Map<String, Object> responseObject = new LinkedHashMap<>();
+        responseObject.put("token", token);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(response);
+                .body(responseObject);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, Object>> logout() {
+        jwtService.removeTokenCookie();
+
+        Map<String, Object> responseObject = new LinkedHashMap<>();
+        responseObject.put("message", "Logout bem sucedido");
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(responseObject);
     }
 
     @PostMapping("/register")

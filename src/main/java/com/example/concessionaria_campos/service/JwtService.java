@@ -5,7 +5,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.concessionaria_campos.entity.User;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -43,8 +46,28 @@ public class JwtService {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException exception) {
-            return "";
+            throw new RuntimeException("Erro ao verificar token", exception);
         }
+    }
+
+    public void addTokenToCookie(HttpServletResponse response, String token) {
+        ResponseCookie cookie = ResponseCookie.from("token", token)
+            .httpOnly(true)
+            .path("/")
+            .maxAge(60 * 60 * 8)// expira imediatamente
+            .build();
+
+        response.addHeader("Set-Cookie", cookie.toString());
+    }
+
+    public void removeTokenCookie(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from("token", null)
+            .httpOnly(true)
+            .path("/")
+            .maxAge(0)// expira imediatamente
+            .build();
+
+        response.addHeader("Set-Cookie", cookie.toString());
     }
 
     private Instant getExpiration() {
