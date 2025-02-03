@@ -49,12 +49,18 @@ public class AuthorizationController {
                 );
 
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        User userAuthenticated = (User) authentication.getPrincipal();
 
         String token = jwtService.generateToken((User) authentication.getPrincipal());
         jwtService.addTokenToCookie(response, token);
 
         Map<String, Object> responseObject = new LinkedHashMap<>();
         responseObject.put("token", token);
+        responseObject.put("user", Map.of(
+                "id", userAuthenticated.getId(),
+                "login", userAuthenticated.getLogin(),
+                "role", userAuthenticated.getRole()
+        ));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -62,8 +68,8 @@ public class AuthorizationController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Map<String, Object>> logout() {
-        jwtService.removeTokenCookie();
+    public ResponseEntity<Map<String, Object>> logout(HttpServletResponse response) {
+        jwtService.removeTokenCookie(response);
 
         Map<String, Object> responseObject = new LinkedHashMap<>();
         responseObject.put("message", "Logout bem sucedido");
