@@ -80,16 +80,28 @@ public class CustomerController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<CustomerDTO>> fetchByName(@RequestParam(value = "name") String name) {
-        List<CustomerDTO> customerList = customerService.fetchByName(name)
-                .stream()
-                .map(customerDTO -> customerDTOAssembler.toModel(customerMapper.toEntity(customerDTO)))
-                .toList();
+    public ResponseEntity<Object> fetchByFilter(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value="cpf", required = false) String cpf
+    ) {
+        Object data = null;
+
+        if (cpf != null) {
+            data = customerDTOAssembler.toModel(customerMapper.toEntity(customerService.fetchByCpf(cpf)));
+
+        } else if (name != null) {
+            data = customerService.fetchByName(name)
+                    .stream()
+                    .map(customerDTO -> customerDTOAssembler.toModel(customerMapper.toEntity(customerDTO)))
+                    .toList();
+        }
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(customerList);
+                .body(data);
     }
+
+
 
     @GetMapping("/{id}")
     @Operation(

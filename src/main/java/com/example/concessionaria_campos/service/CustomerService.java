@@ -60,9 +60,16 @@ public class CustomerService {
                 .toList();
     }
 
+    public CustomerDTO fetchByCpf(String cpf) {
+        Customer existingCustomer = customerRepository.findByCpf(cpf)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
+
+        return customerMapper.toDTO(existingCustomer);
+    }
+
     public CustomerDTO fetchById(Long id) {
         Customer existingCustomer = customerRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente de não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
         return customerMapper.toDTO(existingCustomer);
     }
 
