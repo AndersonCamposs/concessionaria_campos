@@ -38,4 +38,13 @@ public class UserService {
         return savedUser;
     }
 
+    public boolean validatePassword(User user, String password) {
+        boolean matches = bCryptPasswordEncoder.matches(password, user.getPassword());
+        if (!matches) {
+            throw new RuntimeException("Senha incorreta");
+        }
+
+        return true;
+    }
+
 }

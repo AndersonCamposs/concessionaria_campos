@@ -13,10 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -93,5 +91,19 @@ public class AuthorizationController {
                 .status(HttpStatus.CREATED)
                 .body(linkedHashMap);
 
+    }
+
+    @PostMapping("/verify-password")
+    public ResponseEntity<Map<String, Object>> verifyPassword(
+            @AuthenticationPrincipal User user,
+            @RequestParam(value = "password") String password
+    ) {
+        userService.validatePassword(user, password);
+        Map<String, Object> responseObject = new LinkedHashMap<>();
+        responseObject.put("message", "Senha validada com sucesso.");
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(responseObject);
     }
 }
