@@ -1,5 +1,6 @@
 package com.example.concessionaria_campos.dto;
 
+import com.example.concessionaria_campos.entity.User;
 import com.example.concessionaria_campos.validation.ValidPartialCustomer;
 import com.example.concessionaria_campos.validation.ValidPartialVehicle;
 import lombok.Getter;
@@ -15,6 +16,10 @@ public class SaleDTO extends RepresentationModel<SaleDTO> {
     private Long id;
 
     private LocalDateTime date;
+
+    private Double value;
+
+    private User user;
 
     @ValidPartialCustomer(message = "O campo 'cliente' é obrigatório", groups = {Create.class, Update.class})
     private CustomerDTO customer;

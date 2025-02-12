@@ -1,16 +1,16 @@
 package com.example.concessionaria_campos.exception;
 
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @ControllerAdvice
@@ -32,6 +32,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage(), null));
+    }
+
+    @ExceptionHandler(ResourceAlreadyExists.class)
+    public ResponseEntity<ErrorDetails> handleRegisterAlreadyExists(ResourceAlreadyExists e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorDetails(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null));
     }
 
     @ExceptionHandler(ResourceUnavailableException.class)
@@ -60,6 +67,13 @@ public class GlobalExceptionHandler {
        return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorDetails(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null));
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorDetails> handleAuthenticationException(AuthenticationException e) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorDetails(HttpStatus.UNAUTHORIZED.value(), "Login e/ou senha incorretos.", null));
     }
 
     @ExceptionHandler(RuntimeException.class)
