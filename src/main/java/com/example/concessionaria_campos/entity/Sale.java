@@ -19,6 +19,13 @@ public class Sale {
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
+    @Column(name = "value", nullable = false)
+    private Double value;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = true)
+    private User user;
+
     @OneToOne
     @JoinColumn(name = "vehicle_id", nullable = false)
     private Vehicle vehicle;
