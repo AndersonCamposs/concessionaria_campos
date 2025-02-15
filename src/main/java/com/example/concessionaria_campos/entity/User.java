@@ -44,6 +44,7 @@ public class User implements UserDetails {
         this.role = role;
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
        String userRole = role == UserRole.ADMIN ? "ROLE_ADMIN" : "ROLE_USER";
