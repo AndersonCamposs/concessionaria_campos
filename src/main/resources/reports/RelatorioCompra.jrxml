@@ -40,15 +40,20 @@
 		<band height="600" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
-				<reportElement x="60" y="20" width="680" height="560" uuid="96537eb4-705c-4c7c-b559-02fc242d30aa">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
+				<reportElement x="68" y="30" width="672" height="250" uuid="b7810b36-584c-44ec-9a2e-9ad9280aa6a4"/>
 				<textElement textAlignment="Justified" markup="html">
-					<font size="24"/>
+					<font size="21"/>
 				</textElement>
-				<textFieldExpression><![CDATA["EU, <b>" + $P{nomeCliente} + "</b> inscrito sob <b>CPF n° " + $P{cpfCliente} + "</b>, declaro estar ciente da <b>compra n° " + $P{numPedido} + "</b>, realizada na empresa Concessionária Campos, na data <b>" + $P{dataPedido} + "</b> do veículo de modelo <b>" + $P{modeloVeiculo} + "</b>, da marca <b>" + $P{marcaVeiculo} +"</b>, <b>ano " + $P{anoVeiculo} + "</b>, no valor de <b>R$ " + $P{valorVeiculo} +"</b>. E confirmo que a aquisição encontra-se de acordo com o que foi solicitado. <br> <br> Confirmo, por meio da assinatura deste termo, que concordo com os temos e exigências da empresa mediante o ato da compra, servindo este documento, portanto, como comprobatório da concordância e compromisso de ambas as partes. Tendo recebido, no ato da assinatura, uma cópia do presente documento."]]></textFieldExpression>
+				<textFieldExpression><![CDATA["EU, <b>" + $P{nomeCliente} + "</b>, inscrito(a) sob CPF de n° <b>" + $P{cpfCliente}+ "</b> , declaro estar ciente da " + "compra <b>n° " + $P{numPedido} + "</b>" + ", realizada na empresa Concessionária Campos, na empresa Concessionária Campos na data de <b>" + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{dataPedido}) + "</b> do veículo de modelo <b>" + $P{modeloVeiculo} + "</b>, da marca <b>" + $P{marcaVeiculo} +"</b>, <b>ano " + $P{anoVeiculo} + "</b>, no valor de <b>R$ " + String.format(java.util.Locale.forLanguageTag("pt-BR"), "%,.2f", $P{valorVeiculo}) + "<b>."
+]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="65" y="240" width="670" height="137" uuid="8e3cdb35-bb71-4785-a3e0-c23cbe5d96d4"/>
+				<textElement textAlignment="Justified">
+					<font size="21"/>
+				</textElement>
+				<text><![CDATA[Confirmo, por meio da assinatura deste termo, que concordo com os temos e exigências da empresa mediante o ato da compra, servindo este documento, portanto, como comprobatório da concordância e compromisso de ambas as partes. Tendo recebido, no ato da assinatura, uma cópia do presente documento.]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<pageFooter>
