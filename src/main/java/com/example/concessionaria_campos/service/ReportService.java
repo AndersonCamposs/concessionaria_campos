@@ -13,19 +13,40 @@ import java.util.HashMap;
 @Service
 public class ReportService {
 
-    public byte[] genPurchaseConfirmationReport(SaleDTO saleDTO) throws JRException {
+    public byte[] genPurchaseConfirmationReport(SaleDTO saleDTO) {
+        try {
+            InputStream templateStream = getClass().getResourceAsStream("/reports/RelatorioCompra.jasper");
 
-        InputStream templateStream = getClass().getResourceAsStream("/reports/RelatorioCompra.jasper");
+            HashMap<String, Object> parameters = genParameters(saleDTO);
 
-        HashMap<String, Object> parameters = genParameters(saleDTO);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(templateStream, parameters, new JREmptyDataSource());
 
-        JasperPrint jasperPrint = JasperFillManager.fillReport(templateStream, parameters, new JREmptyDataSource());
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
 
-        JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+            return outputStream.toByteArray();
+        } catch (JRException e) {
+            throw new RuntimeException("Erro ao gerar relatório de confirmação da compra.");
+        }
+    }
 
-        return outputStream.toByteArray();
+    public byte[] genPurchaseCancellationReport(SaleDTO saleDTO) {
+        try {
+            InputStream templateStream = getClass().getResourceAsStream("/reports/RelatorioCancelamentoCompra.jasper");
+
+            HashMap<String, Object> parameters = genParameters(saleDTO);
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(templateStream, parameters, new JREmptyDataSource());
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+            JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+
+            return outputStream.toByteArray();
+        } catch (JRException e) {
+            throw new RuntimeException("Erro ao gerar relatório de cancelamento da compra.");
+        }
 
     }
 
