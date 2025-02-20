@@ -18,7 +18,7 @@ public class ReportController {
 
     @PostMapping("/confirmation-purchase")
     public ResponseEntity<byte[]> confirmationPurchase(@RequestBody SaleDTO saleDTO) {
-        try {
+
             byte[] pdf = reportService.genPurchaseConfirmationReport(saleDTO);
 
             HttpHeaders headers = new HttpHeaders();
@@ -29,8 +29,20 @@ public class ReportController {
                     .status(HttpStatus.OK)
                     .headers(headers)
                     .body(pdf);
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao gerar relatório");
-        }
+
+    }
+
+    @PostMapping("/cacellation-purchase")
+    public ResponseEntity<byte[]> cancellationPurchase(@RequestBody SaleDTO saleDTO) {
+        byte[] pdf = reportService.genPurchaseCancellationReport(saleDTO);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF); // Define o tipo correto
+        headers.setContentDisposition(ContentDisposition.attachment().filename("cancelamento-compra.pdf").build()); // Força o download
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .headers(headers)
+                .body(pdf);
     }
 }
