@@ -28,11 +28,11 @@
 		<band height="252" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement x="106" y="150" width="588" height="60" uuid="e2cd3651-e642-468d-8093-150fe163db8a"/>
+				<reportElement x="148" y="150" width="504" height="60" uuid="e2cd3651-e642-468d-8093-150fe163db8a"/>
 				<textElement>
 					<font fontName="Arial" size="31"/>
 				</textElement>
-				<text><![CDATA[Termo de Ciência e Aceitação da Compra]]></text>
+				<text><![CDATA[Termo de Cancelamento da Compra]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -44,14 +44,14 @@
 				<textElement textAlignment="Justified" markup="html">
 					<font size="21"/>
 				</textElement>
-				<textFieldExpression><![CDATA["EU, <b>" + $P{nomeCliente} + "</b>, inscrito(a) sob CPF de n° <b>" + $P{cpfCliente}+ "</b> , declaro estar ciente da " + "compra <b>n° " + $P{numPedido} + "</b>" + ", realizada na empresa Concessionária Campos,  na data de <b>" + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{dataPedido}) + "</b>, do veículo de modelo <b>" + $P{modeloVeiculo} + "</b>, da marca <b>" + $P{marcaVeiculo} +"</b>, <b>ano " + $P{anoVeiculo} + "</b>, no valor de <b>R$ " + String.format(java.util.Locale.forLanguageTag("pt-BR"), "%,.2f", $P{valorVeiculo}) + "<b>."]]></textFieldExpression>
+				<textFieldExpression><![CDATA["EU, <b>" + $P{nomeCliente} + "</b>, inscrito(a) sob CPF de n° <b>" + $P{cpfCliente}+ "</b> , declaro estar ciente do CANCELAMENTO da  " + "compra <b>n° " + $P{numPedido} + "</b>" + ", realizada na empresa Concessionária Campos,  realizada na data de <b>" + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{dataPedido}) + "</b>, do veículo de modelo <b>" + $P{modeloVeiculo} + "</b>, da marca <b>" + $P{marcaVeiculo} +"</b>, <b>ano " + $P{anoVeiculo} + "</b>, no valor de <b>R$ " + String.format(java.util.Locale.forLanguageTag("pt-BR"), "%,.2f", $P{valorVeiculo}) + "<b>."]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="65" y="240" width="670" height="137" uuid="8e3cdb35-bb71-4785-a3e0-c23cbe5d96d4"/>
+				<reportElement x="65" y="240" width="670" height="170" uuid="8e3cdb35-bb71-4785-a3e0-c23cbe5d96d4"/>
 				<textElement textAlignment="Justified">
 					<font size="21"/>
 				</textElement>
-				<text><![CDATA[Confirmo, por meio da assinatura deste termo, que concordo com os temos e exigências da empresa mediante o ato da compra, servindo este documento, portanto, como comprobatório da concordância e compromisso de ambas as partes. Tendo recebido, no ato da assinatura, uma cópia do presente documento.]]></text>
+				<text><![CDATA[Asseguro, por meio da assinatura deste termo, que devolvo a propriedade adquirida na mesma qualidade em que foi retirada do estabelecimentos e estando disposto a arcar com quaisquer prejuízo encontrado na propriedade após análise e avaliação de um profissional da empresa. ]]></text>
 			</staticText>
 		</band>
 	</detail>
