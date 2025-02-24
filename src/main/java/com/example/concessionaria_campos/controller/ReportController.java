@@ -32,7 +32,7 @@ public class ReportController {
 
     }
 
-    @PostMapping("/cacellation-purchase")
+    @PostMapping("/cancellation-purchase")
     public ResponseEntity<byte[]> cancellationPurchase(@RequestBody SaleDTO saleDTO) {
         byte[] pdf = reportService.genPurchaseCancellationReport(saleDTO);
 

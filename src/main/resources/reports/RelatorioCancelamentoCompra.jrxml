@@ -44,7 +44,7 @@
 				<textElement textAlignment="Justified" markup="html">
 					<font size="21"/>
 				</textElement>
-				<textFieldExpression><![CDATA["EU, <b>" + $P{nomeCliente} + "</b>, inscrito(a) sob CPF de n° <b>" + $P{cpfCliente}+ "</b> , declaro estar ciente do CANCELAMENTO da  " + "compra <b>n° " + $P{numPedido} + "</b>" + ", realizada na empresa Concessionária Campos,  realizada na data de <b>" + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{dataPedido}) + "</b>, do veículo de modelo <b>" + $P{modeloVeiculo} + "</b>, da marca <b>" + $P{marcaVeiculo} +"</b>, <b>ano " + $P{anoVeiculo} + "</b>, no valor de <b>R$ " + String.format(java.util.Locale.forLanguageTag("pt-BR"), "%,.2f", $P{valorVeiculo}) + "<b>."]]></textFieldExpression>
+				<textFieldExpression><![CDATA["EU, <b>" + $P{nomeCliente} + "</b>, inscrito(a) sob CPF de n° <b>" + $P{cpfCliente}+ "</b> , declaro estar ciente do CANCELAMENTO da  " + "compra <b>n° " + $P{numPedido} + "</b>" + ", realizada na empresa Concessionária Campos, na data de <b>" + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{dataPedido}) + "</b>, do veículo de modelo <b>" + $P{modeloVeiculo} + "</b>, da marca <b>" + $P{marcaVeiculo} +"</b>, <b>ano " + $P{anoVeiculo} + "</b>, no valor de <b>R$ " + String.format(java.util.Locale.forLanguageTag("pt-BR"), "%,.2f", $P{valorVeiculo}) + "<b>."]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="65" y="240" width="670" height="170" uuid="8e3cdb35-bb71-4785-a3e0-c23cbe5d96d4"/>
