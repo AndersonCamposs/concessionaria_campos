@@ -3,6 +3,7 @@ package com.example.concessionaria_campos.service;
 import com.example.concessionaria_campos.dto.RegisterDTO;
 import com.example.concessionaria_campos.entity.User;
 import com.example.concessionaria_campos.exception.ResourceAlreadyExists;
+import com.example.concessionaria_campos.exception.ResourceNotFoundException;
 import com.example.concessionaria_campos.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,6 +37,13 @@ public class UserService {
         User savedUser = userRepository.save(user);
 
         return savedUser;
+    }
+
+    public User fetchById(Long id) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+
+        return existingUser;
     }
 
     public boolean validatePassword(User user, String password) {
