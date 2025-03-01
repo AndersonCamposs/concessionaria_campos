@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,6 +38,11 @@ public class UserService {
         User savedUser = userRepository.save(user);
 
         return savedUser;
+    }
+
+    public List<User> fetchAllUsers() {
+        List<User> userList = userRepository.findAll();
+        return userList;
     }
 
     public User fetchById(Long id) {
