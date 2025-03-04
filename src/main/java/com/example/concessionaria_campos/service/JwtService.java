@@ -27,7 +27,7 @@ public class JwtService {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()
                     .withIssuer("concessionaria-auth-api")
-                    .withSubject(user.getLogin())
+                    .withSubject(user.getId().toString())
                     .withExpiresAt(getExpiration())
                     .sign(algorithm);
 
