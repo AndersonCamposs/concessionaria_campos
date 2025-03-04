@@ -5,6 +5,7 @@ import com.example.concessionaria_campos.entity.User;
 import com.example.concessionaria_campos.exception.ResourceAlreadyExists;
 import com.example.concessionaria_campos.exception.ResourceNotFoundException;
 import com.example.concessionaria_campos.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,6 +39,26 @@ public class UserService {
         User savedUser = userRepository.save(user);
 
         return savedUser;
+    }
+
+    public User updateUserLogin(Long id, String login) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+
+        existingUser.setLogin(login);
+
+        User updatedUser = userRepository.save(existingUser);
+        return updatedUser;
+    }
+
+    public User updateUserPassword(Long id, String password) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+
+        existingUser.setPassword(bCryptPasswordEncoder.encode(password));
+        User updatedUser = userRepository.save(existingUser);
+
+        return updatedUser;
     }
 
     public List<User> fetchAllUsers() {

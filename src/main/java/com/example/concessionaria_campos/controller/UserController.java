@@ -5,11 +5,9 @@ import com.example.concessionaria_campos.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +20,28 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> updateUser(
+            @PathVariable Long id,
+            @RequestParam(value = "login", required = false) String login,
+            @RequestParam(value = "password", required = false) String password
+    ) {
+         User userUpdated = new User();
+        if (login != null) {
+            userUpdated = userService.updateUserLogin(id, login);
+        }
+        if (password != null) {
+            userUpdated = userService.updateUserPassword(id, password);
+        }
+
+        Map<String, Object> userData =prepareUserResponse(userUpdated);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userData);
+
     }
 
     @GetMapping
