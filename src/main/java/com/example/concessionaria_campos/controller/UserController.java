@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<User>> fetchAllUsers() {
         List<User> userList = userService.fetchAllUsers();
 
         return ResponseEntity
@@ -60,10 +60,21 @@ public class UserController {
 
     }
 
+    @GetMapping("/search/{login}")
+    public ResponseEntity<Map<String, Object>> fetchByLogin(@PathVariable("login") String login) {
+        User existingUser = userService.fetchByLogin(login);
+        Map<String, Object> userData = prepareUserResponse(existingUser);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userData);
+    }
+
     private Map<String, Object> prepareUserResponse(User user) {
         Map<String, Object> userData = new LinkedHashMap<>();
         userData.put("id", user.getId());
         userData.put("login", user.getLogin());
+        userData.put("password", user.getPassword());
         userData.put("role", user.getRole());
 
         return userData;

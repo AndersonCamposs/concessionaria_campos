@@ -52,6 +52,13 @@ public class UserService {
         return existingUser;
     }
 
+    public User fetchByLogin(String login) {
+        UserDetails user = userRepository.findByLogin(login)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+
+        return (User) user;
+    }
+
     public boolean validatePassword(User user, String password) {
         boolean matches = bCryptPasswordEncoder.matches(password, user.getPassword());
         if (!matches) {
