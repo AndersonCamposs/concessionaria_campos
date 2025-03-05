@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -41,7 +42,7 @@ public class UserService {
         return savedUser;
     }
 
-    public User updateUserLogin(Long id, String login) {
+    public User updateUserLogin(UUID id, String login) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
@@ -51,7 +52,7 @@ public class UserService {
         return updatedUser;
     }
 
-    public User updateUserPassword(Long id, String password) {
+    public User updateUserPassword(UUID id, String password) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
@@ -66,7 +67,7 @@ public class UserService {
         return userList;
     }
 
-    public User fetchById(Long id) {
+    public User fetchById(UUID id) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 

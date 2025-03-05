@@ -7,10 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/user")
@@ -24,7 +21,7 @@ public class UserController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Map<String, Object>> updateUser(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @RequestParam(value = "login", required = false) String login,
             @RequestParam(value = "password", required = false) String password
     ) {
@@ -69,7 +66,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> fetchById(@PathVariable("id") Long id) {
+    public ResponseEntity<Map<String, Object>> fetchById(@PathVariable("id") UUID id) {
         User existingUser = userService.fetchById(id);
 
         Map<String, Object> userData = prepareUserResponse(existingUser);

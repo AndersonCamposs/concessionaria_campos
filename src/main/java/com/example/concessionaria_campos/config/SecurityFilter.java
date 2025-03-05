@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
@@ -34,7 +35,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (token != null) {
             String subject = jwtService.verifyToken(token);
 
-            UserDetails userDetails = userRepository.findById(Long.parseLong(subject))
+            UserDetails userDetails = userRepository.findById(UUID.fromString(subject))
                     .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
