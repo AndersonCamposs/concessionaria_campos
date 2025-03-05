@@ -1,6 +1,9 @@
 package com.example.concessionaria_campos.controller;
 
+import com.example.concessionaria_campos.assembler.UserDTOAssembler;
+import com.example.concessionaria_campos.dto.UserDTO;
 import com.example.concessionaria_campos.entity.User;
+import com.example.concessionaria_campos.mapper.UserMapper;
 import com.example.concessionaria_campos.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,18 +17,22 @@ import java.util.*;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
+    private final UserDTOAssembler userDTOAssembler;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserMapper userMapper, UserDTOAssembler userDTOAssembler) {
         this.userService = userService;
+        this.userMapper = userMapper;
+        this.userDTOAssembler = userDTOAssembler;
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateUser(
+    public ResponseEntity<UserDTO> updateUser(
             @PathVariable UUID id,
             @RequestParam(value = "login", required = false) String login,
             @RequestParam(value = "password", required = false) String password
     ) {
-         User userUpdated = new User();
+         UserDTO userUpdated = new UserDTO();
         if (login != null) {
             userUpdated = userService.updateUserLogin(id, login);
         }
@@ -33,17 +40,15 @@ public class UserController {
             userUpdated = userService.updateUserPassword(id, password);
         }
 
-        Map<String, Object> userData =prepareUserResponse(userUpdated);
-
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(userData);
+                .body(userDTOAssembler.toModel(userMapper.toEntity(userUpdated)));
 
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> fetchAllUsers() {
-        List<User> userList = userService.fetchAllUsers();
+    public ResponseEntity<List<UserDTO>> fetchAllUsers() {
+        List<UserDTO> userList = userService.fetchAllUsers();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -51,49 +56,32 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<Map<String, Object>> fetchUserProfile(@AuthenticationPrincipal User user) {
+    public ResponseEntity<UserDTO> fetchUserProfile(@AuthenticationPrincipal User user) {
         if (user == null) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", "Usuário não autenticado"));
+            throw new RuntimeException("Usuário não autenticado");
         }
 
-        Map<String, Object> userData = prepareUserResponse(user);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(userData);
+                .body(userDTOAssembler.toModel(user));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> fetchById(@PathVariable("id") UUID id) {
-        User existingUser = userService.fetchById(id);
-
-        Map<String, Object> userData = prepareUserResponse(existingUser);
+    public ResponseEntity<UserDTO> fetchById(@PathVariable("id") UUID id) {
+        UserDTO existingUser = userService.fetchById(id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(userData);
-
+                .body(userDTOAssembler.toModel(userMapper.toEntity(existingUser)));
     }
 
     @GetMapping("/search/{login}")
-    public ResponseEntity<Map<String, Object>> fetchByLogin(@PathVariable("login") String login) {
-        User existingUser = userService.fetchByLogin(login);
-        Map<String, Object> userData = prepareUserResponse(existingUser);
+    public ResponseEntity<UserDTO> fetchByLogin(@PathVariable("login") String login) {
+        UserDTO existingUser = userService.fetchByLogin(login);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(userData);
-    }
-
-    private Map<String, Object> prepareUserResponse(User user) {
-        Map<String, Object> userData = new LinkedHashMap<>();
-        userData.put("id", user.getId());
-        userData.put("login", user.getLogin());
-        userData.put("password", user.getPassword());
-        userData.put("role", user.getRole());
-
-        return userData;
+                .body(userDTOAssembler.toModel(userMapper.toEntity(existingUser)));
     }
 }
