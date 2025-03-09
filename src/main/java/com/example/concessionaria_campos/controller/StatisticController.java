@@ -1,5 +1,6 @@
 package com.example.concessionaria_campos.controller;
 
+import com.example.concessionaria_campos.dto.statistic.MonthlyUserSaleAmount;
 import com.example.concessionaria_campos.entity.User;
 import com.example.concessionaria_campos.mapper.UserMapper;
 import com.example.concessionaria_campos.service.StatisticService;
@@ -9,6 +10,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/statistic")
@@ -22,12 +25,21 @@ public class StatisticController {
         this.userMapper = userMapper;
     }
 
-    @GetMapping("/user/sales")
+    @GetMapping("/user/sales/count")
     public ResponseEntity<Integer> countUserSales(@AuthenticationPrincipal User user) {
         Integer count = statisticService.countUserSales(userMapper.toDTO(user));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(count);
+    }
+
+    @GetMapping("/user/sales/amount")
+    public ResponseEntity<List<MonthlyUserSaleAmount>> sumMonthlyUserSales(@AuthenticationPrincipal User user) {
+        List<MonthlyUserSaleAmount> listResult = statisticService.sumMonthlyUserSales(userMapper.toDTO(user));
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(listResult);
     }
 }
