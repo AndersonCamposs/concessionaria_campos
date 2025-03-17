@@ -2,6 +2,7 @@ package com.example.concessionaria_campos.service;
 
 import com.example.concessionaria_campos.dto.UserDTO;
 import com.example.concessionaria_campos.dto.statistic.MonthlyUserSaleAmount;
+import com.example.concessionaria_campos.dto.statistic.MonthlyUserSaleCount;
 import com.example.concessionaria_campos.entity.User;
 import com.example.concessionaria_campos.mapper.UserMapper;
 import com.example.concessionaria_campos.repository.StatisticRepository;
@@ -22,15 +23,17 @@ public class StatisticService {
         this.userMapper = userMapper;
     }
 
-    public Integer countUserSales(UserDTO user) {
-        Integer count = statisticRepository.findUserSales(userMapper.toEntity(user));
-        return count;
+    public List<MonthlyUserSaleCount> countUserSales(UserDTO user) {
+        List<MonthlyUserSaleCount> monthlyUserSaleCounts = statisticRepository
+                .findMonthlyCountUserSales(userMapper.toEntity(user));
+
+        return monthlyUserSaleCounts;
     }
 
-    public List<MonthlyUserSaleAmount> sumMonthlyUserSales(UserDTO user) {
+    public List<MonthlyUserSaleAmount> fetchMonthlyUserSales(UserDTO user) {
         int currentYear = Year.now().getValue();
         List<MonthlyUserSaleAmount> monthlyUserSaleAmount = statisticRepository
-                .findMonthlyUserSales(userMapper.toEntity(user), currentYear);
+                .findMonthlyAmountUserSales(userMapper.toEntity(user), currentYear);
 
         return monthlyUserSaleAmount;
     }
